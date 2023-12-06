@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" modified="2023-12-06T14:26:06.362Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="PGAjWpM_-STC6Xf599c4" version="21.7.5" type="github">
+  <diagram name="Page-1" id="FE-47qsWvYnsMxgvIYbm">
+    <mxGraphModel dx="2284" dy="746" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-1" value="Cloud Service&lt;br&gt;(Firebase)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="300" y="210" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-24" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;fillColor=#e1d5e7;" edge="1" parent="1" source="6HdpZ-S6u97lX5I0Tlse-3" target="6HdpZ-S6u97lX5I0Tlse-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-26" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.433;entryY=0.933;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=none;endFill=0;" edge="1" parent="1" source="6HdpZ-S6u97lX5I0Tlse-3" target="6HdpZ-S6u97lX5I0Tlse-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-27" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;labelBackgroundColor=default;strokeColor=default;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=none;endFill=0;" edge="1" parent="1" source="6HdpZ-S6u97lX5I0Tlse-3" target="6HdpZ-S6u97lX5I0Tlse-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-3" value="Server&lt;br&gt;(Node-RED)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.servers;" vertex="1" parent="1">
+          <mxGeometry x="170" y="380" width="88" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-22" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="6HdpZ-S6u97lX5I0Tlse-5" target="6HdpZ-S6u97lX5I0Tlse-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-5" value="ESP32" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/electronic-13/480/3-electronic-arduino-chipset-icon-2-128.png;clipPath=inset(15.63% 16.41% 17.97% 16.41%);" vertex="1" parent="1">
+          <mxGeometry x="-360" y="370" width="111.29" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-23" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1" source="6HdpZ-S6u97lX5I0Tlse-17" target="6HdpZ-S6u97lX5I0Tlse-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-25" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=#9673a6;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;fillColor=#e1d5e7;" edge="1" parent="1" source="6HdpZ-S6u97lX5I0Tlse-18" target="6HdpZ-S6u97lX5I0Tlse-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-6" value="Client&lt;br&gt;(Node-RED UI)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="360" y="490" width="100" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-31" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-110" y="310" width="120" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-18" value="Sub&amp;nbsp;⬅️ Pub" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="6HdpZ-S6u97lX5I0Tlse-31">
+          <mxGeometry y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-7" value="MQ Broker&lt;br&gt;(HiveMQ)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.servers;" vertex="1" parent="6HdpZ-S6u97lX5I0Tlse-31">
+          <mxGeometry x="16" y="81" width="88" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="6HdpZ-S6u97lX5I0Tlse-17" value="Pub ➡️ Sub" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="6HdpZ-S6u97lX5I0Tlse-31">
+          <mxGeometry width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
