@@ -4,7 +4,7 @@
 
 ### From `ESP32` to `Server` (via `MQ Broker`)
 
-#### Device status
+#### Device status (sent after every report interval)
 - Battery level
 - Light temperature
 - Environment brightness
@@ -18,7 +18,7 @@
   - Party: Randomly change colors and brightness levels for a dynamic and lively effect.
 - Timestamp
 
-#### User Actions
+#### User Actions (sent after executing a command from the server)
 - By (user)
 - Action:
   - Turn on/off
