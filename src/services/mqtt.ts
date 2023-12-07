@@ -36,7 +36,7 @@ const handleReceiveMessage: mqtt.OnMessageCallback = (
     }
 };
 
-export const mqttClient = mqtt.connect("wss://broker.hivemq.com:8884/mqtt", {
+export const mqttClient = mqtt.connect(import.meta.env.VITE_MQTT, {
     connectTimeout: 5000,
 });
 
