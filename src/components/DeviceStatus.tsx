@@ -1,16 +1,17 @@
-import { ConnectionStatus, mqttActions, mqttState } from "@/valtio/mqtt";
+import { ConnectionStatus, mqttState } from "@/valtio/mqtt";
 import { useSnapshot } from "valtio";
+import * as mqttService from "@/services/mqtt";
 
 const DeviceStatus = () => {
     const mqttSnap = useSnapshot(mqttState);
 
-    const handlePressButton = () => {
+    const handleConnection = () => {
         if (mqttSnap.connectionStatus === ConnectionStatus.CONNECTED) {
-            mqttActions.disconnect();
+            mqttService.stop();
         }
 
         if (mqttSnap.connectionStatus === ConnectionStatus.DISCONNECTED) {
-            mqttActions.connect();
+            mqttService.start();
         }
     };
 
@@ -26,11 +27,24 @@ const DeviceStatus = () => {
         return "Loading";
     };
 
+    const handleSayHello = () => {
+        mqttService.publish(
+            mqttService.LLLL_CHANNEL.HELLO,
+            "Say hello from LLLL client!"
+        );
+    };
+
     return (
-        <div>
-            <button className="btn" onClick={handlePressButton}>
+        <div className="flex flex-col items-center gap-4">
+            <button className="btn" onClick={handleConnection}>
                 {getConnectionText()}
             </button>
+
+            {mqttSnap.connectionStatus === ConnectionStatus.CONNECTED && (
+                <button className="btn" onClick={handleSayHello}>
+                    Say hello
+                </button>
+            )}
         </div>
     );
 };
