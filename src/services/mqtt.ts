@@ -1,5 +1,6 @@
-import { ConnectionStatus, mqttActions, mqttState } from "@/valtio/mqtt";
+import { mqttActions, mqttState } from "@/valtio/mqtt";
 import mqtt from "mqtt";
+import { toast } from "react-toastify";
 
 export const LLLL_PREFIX = "laplalaplanh/";
 
@@ -8,13 +9,27 @@ export enum LLLL_CHANNEL {
 }
 
 const getTopicFromChannel = (channel: LLLL_CHANNEL) => {
-    return `${channel}/${mqttState.deviceId}`;
+    return `${channel}/${mqttState.activeDevice}`;
 };
 
 const getChannelFromTopic = (topic: string) => {
     const topicParts = topic.split("/");
     const channel = topicParts[0] + "/" + topicParts[1];
     return channel;
+};
+
+const subscribeAll = () => {
+    const channels = Object.values(LLLL_CHANNEL);
+    channels.forEach((channel) =>
+        mqttClient.subscribe(getTopicFromChannel(channel))
+    );
+};
+
+const unsubscribeAll = () => {
+    const channels = Object.values(LLLL_CHANNEL);
+    channels.forEach((channel) =>
+        mqttClient.unsubscribe(getTopicFromChannel(channel))
+    );
 };
 
 const handleReceiveMessage: mqtt.OnMessageCallback = (
@@ -26,7 +41,7 @@ const handleReceiveMessage: mqtt.OnMessageCallback = (
 
     switch (channel) {
         case LLLL_CHANNEL.HELLO: {
-            console.log(`[TOPIC: ${channel}] ${message}`);
+            console.log(`[TOPIC: ${topic}] ${message}`);
             break;
         }
         default: {
@@ -45,22 +60,26 @@ mqttClient.on("connect", () => {
 });
 
 export const start = () => {
-    if (!mqttState.deviceId) {
-        console.error("[ERROR] Device ID is not set");
+    if (!mqttState.activeDevice) {
+        toast.error("Please select a device first");
         return;
     }
-    mqttActions.updateConnectionStatus(ConnectionStatus.CONNECTED);
 
-    const channels = Object.values(LLLL_CHANNEL);
-    channels.forEach((channel) =>
-        mqttClient.subscribe(getTopicFromChannel(channel))
-    );
+    subscribeAll();
+
     mqttClient.on("message", handleReceiveMessage);
+
+    toast.success(`Connected to device ${mqttState.activeDevice}`);
 };
 
 export const stop = () => {
-    mqttClient.removeAllListeners();
-    mqttActions.updateConnectionStatus(ConnectionStatus.DISCONNECTED);
+    mqttClient.end();
+};
+
+export const changeDevice = (deviceId: string) => {
+    unsubscribeAll();
+    mqttActions.setActiveDevice(deviceId);
+    start();
 };
 
 export const publish = (channel: LLLL_CHANNEL, message: string) => {

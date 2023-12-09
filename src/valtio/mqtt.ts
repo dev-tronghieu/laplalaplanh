@@ -1,26 +1,20 @@
 import { proxy } from "valtio";
 
-export enum ConnectionStatus {
-    CONNECTING = "CONNECTING",
-    CONNECTED = "CONNECTED",
-    DISCONNECTED = "DISCONNECTED",
-}
-
 export interface MqttState {
-    connectionStatus: ConnectionStatus;
-    deviceId?: string;
+    devices: string[];
+    activeDevice?: string;
 }
 
 export const mqttState = proxy<MqttState>({
-    connectionStatus: ConnectionStatus.DISCONNECTED,
-    deviceId: "test",
+    devices: [],
 });
 
 export const mqttActions = {
-    updateConnectionStatus: (status: ConnectionStatus) => {
-        mqttState.connectionStatus = status;
+    setDevices: (devices: string[]) => {
+        mqttState.devices = devices;
     },
-    updateDeviceId: (deviceId: string) => {
-        mqttState.deviceId = deviceId;
+
+    setActiveDevice: (device: string) => {
+        mqttState.activeDevice = device;
     },
 };

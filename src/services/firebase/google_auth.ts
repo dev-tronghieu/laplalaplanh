@@ -3,6 +3,8 @@ import { firebaseApp } from "./setup";
 
 const provider = new GoogleAuthProvider();
 
-const auth = getAuth(firebaseApp);
+export const firebaseAuth = getAuth(firebaseApp);
 
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const signInWithGoogle = () => signInWithPopup(firebaseAuth, provider);
+
+export const signOut = () => firebaseAuth.signOut();
