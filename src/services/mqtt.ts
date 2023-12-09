@@ -79,7 +79,7 @@ export const stop = () => {
 export const changeDevice = (deviceId: string) => {
     unsubscribeAll();
     mqttActions.setActiveDevice(deviceId);
-    start();
+    subscribeAll();
 };
 
 export const publish = (channel: LLLL_CHANNEL, message: string) => {
