@@ -30,7 +30,9 @@ export const authActions = {
 
             const user = await getUser(userCredential.user.email);
             if (!user) {
-                return toast.error("User not found");
+                return toast.error(
+                    "Tài khoản chưa được đăng ký, vui lòng liên hệ chủ thiết bị."
+                );
             }
 
             mqttActions.setDevices(user.devices);
@@ -57,6 +59,6 @@ export const authActions = {
         authState.isLoggedIn = false;
         authState.profile = undefined;
         mqttService.stop();
-        toast.success("Logged out");
+        toast.success("Đăng xuất thành công");
     },
 };

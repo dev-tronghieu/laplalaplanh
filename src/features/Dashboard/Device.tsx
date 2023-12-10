@@ -25,7 +25,7 @@ const Device = () => {
                 >
                     {mqttSnap.devices.map((device) => (
                         <option key={device} value={device}>
-                            Device: {device}
+                            Mã thiết bị: {device}
                         </option>
                     ))}
                 </select>

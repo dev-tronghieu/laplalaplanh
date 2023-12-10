@@ -61,15 +61,11 @@ mqttClient.on("connect", () => {
 
 export const start = () => {
     if (!mqttState.activeDevice) {
-        toast.error("Please select a device first");
+        toast.error("Vui lòng chọn thiết bị");
         return;
     }
-
     subscribeAll();
-
     mqttClient.on("message", handleReceiveMessage);
-
-    toast.success(`Connected to device ${mqttState.activeDevice}`);
 };
 
 export const stop = () => {
