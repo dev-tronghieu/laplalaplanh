@@ -69,7 +69,7 @@ export const start = () => {
 };
 
 export const stop = () => {
-    mqttClient.end();
+    unsubscribeAll();
 };
 
 export const changeDevice = (deviceId: string) => {
