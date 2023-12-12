@@ -4,7 +4,7 @@
 
 ### MQTT
 
-`topic` = `laplalaplanh/{channel}/{device-id}` (e.g. `laplalaplanh/status/denso1`)
+`topic` = `laplalaplanh/{channel}/{device-id}` (e.g. `laplalaplanh/status/dv1`)
 
 - Available channels:
   - `hello`: For testing purposes
@@ -17,13 +17,20 @@
 - Change the operating mode
 - Adjust brightness
 - Change light mode
-  - Change the color of the single-color mode
-  - Change flashing speed
-  - Change the fade duration of the pulse mode
-- Change data report interval (3min, 5min, etc.)
+  - Effect
+  - Color
+- Change report interval (3min, 5min, etc.)
 - Reset to default settings
 
 ### Light mode
+
+```json
+"topic": "laplalaplanh/action/light-mode/dv1",
+"payload": {
+  "mode": "single-color",
+  "color": "#ff0000"
+}
+```
 
 - Single color: Set the light to a specific color the user chooses
 - Flashing: Make the light flash on and off at regular intervals
@@ -50,7 +57,7 @@
 - Action Id
 - Success or failure
 
-### From `Server` to `ESP32`
+### From `Client` to `ESP32`
 
 #### User Actions
 
