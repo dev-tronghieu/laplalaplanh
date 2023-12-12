@@ -6,15 +6,55 @@ export const LLLL_PREFIX = "laplalaplanh/";
 
 export enum LLLL_CHANNEL {
     HELLO = LLLL_PREFIX + "hello",
+    ACTION_POWER = LLLL_PREFIX + "action/power",
+    ACTION_OPERATION_MODE = LLLL_PREFIX + "action/operation-mode",
+    ACTION_BRIGHTNESS = LLLL_PREFIX + "action/brightness",
+    ACTION_LIGHT_MODE = LLLL_PREFIX + "action/light-mode",
+    ACTION_REPORT_INTERVAL = LLLL_PREFIX + "action/report-interval",
 }
 
-const getTopicFromChannel = (channel: LLLL_CHANNEL) => {
+export const LLLL_ACTION_PARAMS = {
+    POWER: {
+        ON: "on",
+        OFF: "off",
+    },
+    OPERATION_MODE: {
+        AUTO: "auto",
+        MANUAL: "manual",
+    },
+    BRIGHTNESS: {
+        LOW: "low",
+        MEDIUM: "medium",
+        HIGH: "high",
+    },
+    LIGHT_MODE: {
+        EFFECT: {
+            SINGLE_COLOR: "single-color",
+            FLASHING: "flashing",
+            PULSE: "pulse",
+            RAINBOW: "rainbow",
+            PARTY: "party",
+        },
+        COLOR: (color: string) => {
+            return color;
+        },
+    },
+    REPORT_INTERVAL: {
+        THIRTY_SECONDS: "30s",
+        ONE_MINUTE: "1m",
+        THREE_MINUTES: "3m",
+        FIVE_MINUTES: "5m",
+        TEN_MINUTES: "10m",
+    },
+};
+
+export const getTopicFromChannel = (channel: LLLL_CHANNEL) => {
     return `${channel}/${mqttState.activeDevice}`;
 };
 
-const getChannelFromTopic = (topic: string) => {
+export const getChannelFromTopic = (topic: string) => {
     const topicParts = topic.split("/");
-    const channel = topicParts[0] + "/" + topicParts[1];
+    const channel = topicParts.splice(0, topicParts.length - 1).join("/");
     return channel;
 };
 
@@ -37,18 +77,7 @@ const handleReceiveMessage: mqtt.OnMessageCallback = (
     payload: Buffer
 ) => {
     const message = payload.toString();
-    const channel = getChannelFromTopic(topic);
-
-    switch (channel) {
-        case LLLL_CHANNEL.HELLO: {
-            console.log(`[TOPIC: ${topic}] ${message}`);
-            break;
-        }
-        default: {
-            console.log("[UNKNOWN TOPIC]", message);
-            break;
-        }
-    }
+    console.log(`[${topic}] ${message}`);
 };
 
 export const mqttClient = mqtt.connect(import.meta.env.VITE_MQTT, {

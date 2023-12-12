@@ -1,3 +1,4 @@
+import { LLLL_ACTION_PARAMS, LLLL_CHANNEL, publish } from "@/services/mqtt";
 import { useState } from "react";
 
 const Power = () => {
@@ -7,10 +8,12 @@ const Power = () => {
     const offStyle = `${baseStyle} bg-slate-500 text-white`;
 
     const handleOn = () => {
+        publish(LLLL_CHANNEL.ACTION_POWER, LLLL_ACTION_PARAMS.POWER.ON);
         setIsOn(true);
     };
 
     const handleOff = () => {
+        publish(LLLL_CHANNEL.ACTION_POWER, LLLL_ACTION_PARAMS.POWER.OFF);
         setIsOn(false);
     };
 
