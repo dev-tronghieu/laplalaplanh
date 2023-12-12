@@ -20,7 +20,6 @@
   - Effect
   - Color
 - Change report interval (3min, 5min, etc.)
-- Reset to default settings
 
 ### Light mode
 
