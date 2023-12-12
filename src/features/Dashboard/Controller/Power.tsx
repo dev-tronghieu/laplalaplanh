@@ -8,12 +8,15 @@ const Power = () => {
     const offStyle = `${baseStyle} bg-slate-500 text-white`;
 
     const handleOn = () => {
-        publish(LLLL_CHANNEL.ACTION_POWER, LLLL_ACTION_PARAMS.POWER.ON);
+        publish(LLLL_CHANNEL.ACTION_SET_POWER, LLLL_ACTION_PARAMS.SET_POWER.ON);
         setIsOn(true);
     };
 
     const handleOff = () => {
-        publish(LLLL_CHANNEL.ACTION_POWER, LLLL_ACTION_PARAMS.POWER.OFF);
+        publish(
+            LLLL_CHANNEL.ACTION_SET_POWER,
+            LLLL_ACTION_PARAMS.SET_POWER.OFF
+        );
         setIsOn(false);
     };
 

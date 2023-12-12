@@ -6,40 +6,32 @@ export const LLLL_PREFIX = "laplalaplanh/";
 
 export enum LLLL_CHANNEL {
     HELLO = LLLL_PREFIX + "hello",
-    ACTION_POWER = LLLL_PREFIX + "action/power",
-    ACTION_OPERATING_MODE = LLLL_PREFIX + "action/operation-mode",
-    ACTION_BRIGHTNESS = LLLL_PREFIX + "action/brightness",
-    ACTION_LIGHT_MODE = LLLL_PREFIX + "action/light-mode",
-    ACTION_REPORT_INTERVAL = LLLL_PREFIX + "action/report-interval",
+    ACTION_SET_POWER = LLLL_PREFIX + "action/power",
+    ACTION_SET_OPERATING_MODE = LLLL_PREFIX + "action/operation-mode",
+    ACTION_CHANGE_LIGHT_MODE = LLLL_PREFIX + "action/light-mode",
+    ACTION_UPDATE_REPORT_INTERVAL = LLLL_PREFIX + "action/report-interval",
 }
 
 export const LLLL_ACTION_PARAMS = {
-    POWER: {
+    SET_POWER: {
         ON: "on",
         OFF: "off",
     },
-    OPERATING_MODE: {
+    SET_OPERATING_MODE: {
         AUTO: "auto",
         MANUAL: "manual",
     },
-    BRIGHTNESS: {
-        LOW: "low",
-        MEDIUM: "medium",
-        HIGH: "high",
-    },
-    LIGHT_MODE: {
+    CHANGE_LIGHT_MODE: {
         EFFECT: {
             SINGLE_COLOR: "single-color",
             FLASHING: "flashing",
-            PULSE: "pulse",
             RAINBOW: "rainbow",
-            PARTY: "party",
         },
         COLOR: (color: string) => {
             return color;
         },
     },
-    REPORT_INTERVAL: {
+    UPDATE_REPORT_INTERVAL: {
         THIRTY_SECONDS: "30s",
         ONE_MINUTE: "1m",
         THREE_MINUTES: "3m",

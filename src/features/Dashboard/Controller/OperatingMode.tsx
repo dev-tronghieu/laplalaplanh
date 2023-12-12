@@ -8,16 +8,16 @@ const OperatingMode = () => {
 
     const handleManual = () => {
         publish(
-            LLLL_CHANNEL.ACTION_OPERATING_MODE,
-            LLLL_ACTION_PARAMS.OPERATING_MODE.MANUAL
+            LLLL_CHANNEL.ACTION_SET_OPERATING_MODE,
+            LLLL_ACTION_PARAMS.SET_OPERATING_MODE.MANUAL
         );
         setIsManual(true);
     };
 
     const handleAuto = () => {
         publish(
-            LLLL_CHANNEL.ACTION_OPERATING_MODE,
-            LLLL_ACTION_PARAMS.OPERATING_MODE.AUTO
+            LLLL_CHANNEL.ACTION_SET_OPERATING_MODE,
+            LLLL_ACTION_PARAMS.SET_OPERATING_MODE.AUTO
         );
         setIsManual(false);
     };

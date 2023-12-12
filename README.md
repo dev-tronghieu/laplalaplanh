@@ -15,7 +15,6 @@
 
 - Turn on/off
 - Change the operating mode
-- Adjust brightness
 - Change light mode
   - Effect
   - Color
@@ -33,9 +32,7 @@
 
 - Single color: Set the light to a specific color the user chooses
 - Flashing: Make the light flash on and off at regular intervals
-- Pulse: Create a pulsating effect by smoothly varying the brightness
 - Rainbow: Cycle through a spectrum of colors similar to a rainbow
-- Party: Randomly change colors and brightness levels for a dynamic and lively effect
 
 ## Data flow
 
@@ -47,7 +44,6 @@
 - Light temperature
 - Environment brightness
 - Operating mode (automatic, manual, etc.)
-- Brightness level (low, medium, high, etc.)
 - Light mode
 - Timestamp
 
