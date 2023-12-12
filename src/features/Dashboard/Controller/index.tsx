@@ -1,6 +1,7 @@
 import Title from "@/components/Title";
 import SayHello from "./SayHello";
 import Power from "./Power";
+import OperatingMode from "./OperatingMode";
 
 const DeviceController = () => {
     return (
@@ -9,6 +10,7 @@ const DeviceController = () => {
 
             <div className="flex flex-col gap-2">
                 <Power />
+                <OperatingMode />
                 <SayHello />
             </div>
         </div>

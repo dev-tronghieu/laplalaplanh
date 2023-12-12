@@ -7,7 +7,7 @@ export const LLLL_PREFIX = "laplalaplanh/";
 export enum LLLL_CHANNEL {
     HELLO = LLLL_PREFIX + "hello",
     ACTION_POWER = LLLL_PREFIX + "action/power",
-    ACTION_OPERATION_MODE = LLLL_PREFIX + "action/operation-mode",
+    ACTION_OPERATING_MODE = LLLL_PREFIX + "action/operation-mode",
     ACTION_BRIGHTNESS = LLLL_PREFIX + "action/brightness",
     ACTION_LIGHT_MODE = LLLL_PREFIX + "action/light-mode",
     ACTION_REPORT_INTERVAL = LLLL_PREFIX + "action/report-interval",
@@ -18,7 +18,7 @@ export const LLLL_ACTION_PARAMS = {
         ON: "on",
         OFF: "off",
     },
-    OPERATION_MODE: {
+    OPERATING_MODE: {
         AUTO: "auto",
         MANUAL: "manual",
     },
