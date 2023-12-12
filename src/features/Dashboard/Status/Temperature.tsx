@@ -29,7 +29,7 @@ const getLabelsByMinute = (period: number, columns: number) => {
 
     for (
         let i = now.getMinutes() - (now.getMinutes() % period);
-        i >= now.getMinutes() - period * columns;
+        i >= now.getMinutes() - period * (columns + 1);
         i -= period
     ) {
         const date = new Date(now);
@@ -63,7 +63,33 @@ const Temperature = () => {
     const [columns, setColumns] = useState(10);
 
     return (
-        <div>
+        <div className="max-w-2xl">
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-1 gap-2 items-center">
+                    <label>Khoảng thời gian: {minute} phút</label>
+                    <input
+                        type="range"
+                        value={minute}
+                        onChange={(e) => setMinute(Number(e.target.value))}
+                        min={5}
+                        max={60}
+                        step={5}
+                    />
+                </div>
+
+                <div className="flex flex-1 gap-2 items-center">
+                    <label>Số cột hiển thị: {columns}</label>
+                    <input
+                        type="range"
+                        value={columns}
+                        onChange={(e) => setColumns(Number(e.target.value))}
+                        min={6}
+                        max={18}
+                        step={1}
+                    />
+                </div>
+            </div>
+
             <Line
                 redraw={true}
                 options={lineChartOptions}
@@ -80,26 +106,6 @@ const Temperature = () => {
                     ],
                 }}
             />
-
-            <div className="flex gap-4">
-                <div className="flex flex-1 gap-2 items-center">
-                    <label>Phút</label>
-                    <input
-                        type="number"
-                        value={minute}
-                        onChange={(e) => setMinute(Number(e.target.value))}
-                    />
-                </div>
-
-                <div className="flex flex-1 gap-2 items-center">
-                    <label>Số cột</label>
-                    <input
-                        type="number"
-                        value={columns}
-                        onChange={(e) => setColumns(Number(e.target.value))}
-                    />
-                </div>
-            </div>
         </div>
     );
 };
