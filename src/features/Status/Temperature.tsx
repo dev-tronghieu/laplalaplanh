@@ -1,3 +1,4 @@
+import Subtitle from "@/components/Subtitle";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -20,6 +21,8 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
+import { debounce } from "lodash";
 
 import { Line } from "react-chartjs-2";
 
@@ -56,42 +59,26 @@ const lineChartOptions: ChartOptions<"line"> = {
             text: "Biểu đồ nhiệt độ đèn",
         },
     },
+    maintainAspectRatio: true,
 };
 
 export const Temperature = () => {
     const [minute, setMinute] = useState(10);
     const [columns, setColumns] = useState(10);
 
+    const debouncedMinuteChange = debounce((value) => {
+        setMinute(value);
+    }, 200);
+
+    const debouncedColumnsChange = debounce((value) => {
+        setColumns(value);
+    }, 200);
+
     return (
         <div className="max-w-2xl">
-            <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap flex-1 gap-2 items-center">
-                    <label>Khoảng thời gian: {minute} phút</label>
-                    <input
-                        type="range"
-                        value={minute}
-                        onChange={(e) => setMinute(Number(e.target.value))}
-                        min={5}
-                        max={60}
-                        step={5}
-                    />
-                </div>
-
-                <div className="flex flex-wrap flex-1 gap-2 items-center">
-                    <label>Số cột hiển thị: {columns}</label>
-                    <input
-                        type="range"
-                        value={columns}
-                        onChange={(e) => setColumns(Number(e.target.value))}
-                        min={6}
-                        max={18}
-                        step={1}
-                    />
-                </div>
-            </div>
+            <Subtitle text="Nhiệt độ đèn" />
 
             <Line
-                redraw={true}
                 options={lineChartOptions}
                 data={{
                     labels: getLabelsByMinute(minute, columns),
@@ -106,6 +93,36 @@ export const Temperature = () => {
                     ],
                 }}
             />
+
+            <div className="flex flex-col gap-2 max-w-[300px]">
+                <div className="flex flex-col gap-2">
+                    <label>Khoảng thời gian: {minute} phút</label>
+                    <input
+                        type="range"
+                        // value={minute}
+                        onChange={(e) =>
+                            debouncedMinuteChange(Number(e.target.value))
+                        }
+                        min={5}
+                        max={60}
+                        step={5}
+                    />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                    <label>Số cột hiển thị: {columns}</label>
+                    <input
+                        type="range"
+                        // value={columns}
+                        onChange={(e) =>
+                            debouncedColumnsChange(Number(e.target.value))
+                        }
+                        min={6}
+                        max={18}
+                        step={1}
+                    />
+                </div>
+            </div>
         </div>
     );
 };
