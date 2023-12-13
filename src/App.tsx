@@ -14,7 +14,7 @@ function App() {
     const containerAnimation = collapsed ? "" : "translate-x-64";
 
     return (
-        <Container className="relative overflow-hidden">
+        <Container className="relative overflow-x-hidden">
             {!authSnap.isLoggedIn && (
                 <div className="flex-1 flex justify-center items-center">
                     <Auth />

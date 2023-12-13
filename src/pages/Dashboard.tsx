@@ -1,5 +1,6 @@
 import { OperatingMode, Power, SwitchDevice } from "@/features/Controller";
 import { Temperature } from "@/features/Status";
+import LightTime from "@/features/Status/LightTime";
 
 const DashboardPage = () => {
     return (
@@ -12,6 +13,8 @@ const DashboardPage = () => {
             </div>
 
             <Temperature />
+
+            <LightTime />
         </div>
     );
 };
