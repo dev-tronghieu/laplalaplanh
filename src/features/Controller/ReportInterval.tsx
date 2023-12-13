@@ -1,7 +1,7 @@
 import Subtitle from "@/components/Subtitle";
 import { LLLL_ACTION_PARAMS, LLLL_CHANNEL, publish } from "@/services/mqtt";
 
-const ReportInterval = () => {
+export const ReportInterval = () => {
     const options = Object.values(LLLL_ACTION_PARAMS.UPDATE_REPORT_INTERVAL);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -3,7 +3,7 @@ import { changeDevice } from "@/services/mqtt";
 import { mqttState } from "@/valtio/mqtt";
 import { useSnapshot } from "valtio";
 
-const SwitchDevice = () => {
+export const SwitchDevice = () => {
     const mqttSnap = useSnapshot(mqttState);
 
     const handleChangeDevice = (e: React.ChangeEvent<HTMLSelectElement>) => {
