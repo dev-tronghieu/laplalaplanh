@@ -8,7 +8,8 @@ export enum LLLL_CHANNEL {
     HELLO = LLLL_PREFIX + "hello",
     ACTION_SET_POWER = LLLL_PREFIX + "action/power",
     ACTION_SET_OPERATING_MODE = LLLL_PREFIX + "action/operation-mode",
-    ACTION_CHANGE_LIGHT_MODE = LLLL_PREFIX + "action/light-mode",
+    ACTION_CHANGE_EFFECT = LLLL_PREFIX + "action/effect",
+    ACTION_CHANGE_COLOR = LLLL_PREFIX + "action/color",
     ACTION_UPDATE_REPORT_INTERVAL = LLLL_PREFIX + "action/report-interval",
 }
 
@@ -21,16 +22,12 @@ export const LLLL_ACTION_PARAMS = {
         AUTO: "auto",
         MANUAL: "manual",
     },
-    CHANGE_LIGHT_MODE: {
-        EFFECT: {
-            SINGLE_COLOR: "single-color",
-            FLASHING: "flashing",
-            RAINBOW: "rainbow",
-        },
-        COLOR: (color: string) => {
-            return color;
-        },
+    CHANGE_EFFECT: {
+        SINGLE_COLOR: "single-color",
+        FLASHING: "flashing",
+        RAINBOW: "rainbow",
     },
+    CHANGE_COLOR: (color: string) => color,
     UPDATE_REPORT_INTERVAL: {
         THIRTY_SECONDS: "30s",
         ONE_MINUTE: "1m",

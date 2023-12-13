@@ -15,20 +15,11 @@
 
 - Turn on/off
 - Change the operating mode
-- Change light mode
-  - Effect
-  - Color
+- Change effect
+- Change color
 - Change report interval (3min, 5min, etc.)
 
-### Light mode
-
-```json
-"topic": "laplalaplanh/action/light-mode/dv1",
-"payload": {
-  "mode": "single-color",
-  "color": "#ff0000"
-}
-```
+### Effect
 
 - Single color: Set the light to a specific color the user chooses
 - Flashing: Make the light flash on and off at regular intervals
