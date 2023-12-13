@@ -28,10 +28,12 @@ function App() {
                     <Sidebar className="w-64 h-screen" />
 
                     <div className="px-4 flex-1 w-screen">
-                        <MenuOutlined
-                            className="my-4 text-2xl cursor-pointer rounded-md hover:bg-tertiary transition select-none w-10 h-10 flex justify-center items-center"
-                            onClick={() => setCollapsed(!collapsed)}
-                        />
+                        <div className="my-4 border-b border-secondary">
+                            <MenuOutlined
+                                className="text-2xl cursor-pointer rounded-md text-tertiary hover:text-primary transition select-none w-10 h-10 flex justify-center items-center"
+                                onClick={() => setCollapsed(!collapsed)}
+                            />
+                        </div>
 
                         <Dashboard />
                     </div>

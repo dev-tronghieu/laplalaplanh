@@ -6,8 +6,9 @@ export default {
             colors: {
                 primary: "#FF90BC",
                 secondary: "#FFC0D9",
-                tertiary: "#AEDEFC",
+                tertiary: "#39A7FF",
                 background: "#FFF6F6",
+                dark: "#B6BBC4",
             },
         },
     },

@@ -3,7 +3,7 @@ interface SubtitleProps {
 }
 
 const Subtitle = ({ text }: SubtitleProps) => {
-    return <p className="text-lg font-semibold text-primary">{text}</p>;
+    return <p className="text-lg font-semibold text-tertiary">{text}</p>;
 };
 
 export default Subtitle;
