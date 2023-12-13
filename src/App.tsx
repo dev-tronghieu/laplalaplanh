@@ -2,7 +2,7 @@ import Auth from "@/components/Auth";
 import { useSnapshot } from "valtio";
 import { authState } from "./valtio/auth";
 import Container from "@/layouts/Container";
-import Dashboard from "@/features/Dashboard";
+import Dashboard from "@/pages/Dashboard";
 import Sidebar from "./layouts/Sidebar";
 
 function App() {

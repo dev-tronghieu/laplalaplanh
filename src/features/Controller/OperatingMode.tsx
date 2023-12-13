@@ -4,7 +4,7 @@ import { useState } from "react";
 const OperatingMode = () => {
     const [isManual, setIsManual] = useState(false);
     const baseStyle = "flex-1 rounded p-1 transition";
-    const activeStyle = `${baseStyle} bg-indigo-400 text-white`;
+    const activeStyle = `${baseStyle} bg-secondary text-white`;
 
     const handleManual = () => {
         publish(
@@ -23,7 +23,7 @@ const OperatingMode = () => {
     };
 
     return (
-        <div className="p-1 border border-indigo-400 rounded flex items-center gap-2">
+        <div className="p-1 border border-secondary rounded flex items-center gap-2">
             <button
                 className={isManual ? activeStyle : baseStyle}
                 onClick={handleManual}

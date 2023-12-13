@@ -4,15 +4,15 @@
 
 @layer base {
     input {
-        @apply px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400;
+        @apply px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondary;
     }
 }
 
 @layer components {
     .btn {
-        @apply px-4 py-2 rounded-md font-semibold bg-indigo-400 text-white transition;
+        @apply px-4 py-2 rounded-md font-semibold bg-secondary text-white transition;
     }
     .btn:hover {
-        @apply bg-indigo-500;
+        @apply bg-primary;
     }
 }
