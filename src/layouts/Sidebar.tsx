@@ -34,15 +34,19 @@ const SidebarItem = ({ icon, href, label, onClick }: SidebarItemProps) => {
     );
 };
 
-const Sidebar = () => {
+interface SidebarProps {
+    className?: string;
+}
+
+const Sidebar = ({ className }: SidebarProps) => {
     const authSnap = useSnapshot(authState);
 
     return (
-        <nav className="bg-secondary min-w-[250px]">
+        <nav className={`bg-secondary flex flex-col ${className}`}>
             {authSnap.profile && (
-                <div className="flex flex-col items-center gap-2 py-4">
+                <div className="flex flex-col items-center gap-2 mt-12 mb-4">
                     <img
-                        className="w-20 h-20 rounded-full border-2 border-tertiary"
+                        className="w-24 h-24 rounded-full border-2 border-tertiary"
                         src={authSnap.profile.photoURL}
                         alt="avatar"
                     />

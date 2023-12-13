@@ -24,7 +24,7 @@ export const OperatingMode = () => {
     };
 
     return (
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-wrap gap-2 items-center">
             <Subtitle text="Chế độ" />
 
             <div className="p-1 border border-secondary rounded flex items-center gap-1">
