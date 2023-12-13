@@ -10,7 +10,6 @@ export enum LLLL_CHANNEL {
     ACTION_SET_OPERATING_MODE = LLLL_PREFIX + "action/operation-mode",
     ACTION_CHANGE_EFFECT = LLLL_PREFIX + "action/effect",
     ACTION_CHANGE_COLOR = LLLL_PREFIX + "action/color",
-    ACTION_UPDATE_REPORT_INTERVAL = LLLL_PREFIX + "action/report-interval",
 }
 
 export const LLLL_ACTION_PARAMS = {
@@ -28,13 +27,6 @@ export const LLLL_ACTION_PARAMS = {
         RAINBOW: "rainbow",
     },
     CHANGE_COLOR: (color: string) => color,
-    UPDATE_REPORT_INTERVAL: {
-        THIRTY_SECONDS: "30s",
-        ONE_MINUTE: "1m",
-        THREE_MINUTES: "3m",
-        FIVE_MINUTES: "5m",
-        TEN_MINUTES: "10m",
-    },
 };
 
 export const getTopicFromChannel = (channel: LLLL_CHANNEL) => {

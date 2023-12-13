@@ -17,7 +17,6 @@
 - Change the operating mode
 - Change effect
 - Change color
-- Change report interval (3min, 5min, etc.)
 
 ### Effect
 
@@ -29,13 +28,14 @@
 
 ### From `ESP32` to `Server` to `Cloud`
 
-#### Device status (sent after every report interval) (`channel/device-id`)
+#### Device status (sent after every 30s) (`channel/device-id`)
 
-- Battery level
+- Battery level (?)
 - Light temperature
 - Environment brightness
 - Operating mode (automatic, manual, etc.)
-- Light mode
+- Effect
+- Color
 - Timestamp
 
 #### User Actions (sent after executing an action from the server)
