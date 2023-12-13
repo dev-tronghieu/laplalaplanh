@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { ReactNode } from "react";
 import { authActions, authState } from "@/valtio/auth";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSnapshot } from "valtio";
 
 interface SidebarItemProps {
@@ -17,7 +17,7 @@ interface SidebarItemProps {
 }
 
 const SidebarItem = ({ icon, href, label, onClick }: SidebarItemProps) => {
-    const pathname = window.location.pathname;
+    const pathname = useLocation().pathname;
 
     const activeStyle =
         !onClick && href === pathname && "bg-primary text-white";
@@ -50,7 +50,9 @@ const Sidebar = ({ className }: SidebarProps) => {
                         src={authSnap.profile.photoURL}
                         alt="avatar"
                     />
-                    <p className="text-lg">{authSnap.profile.displayName}</p>
+                    <p className="text-tertiary text-lg">
+                        {authSnap.profile.displayName}
+                    </p>
                 </div>
             )}
 
@@ -69,7 +71,7 @@ const Sidebar = ({ className }: SidebarProps) => {
             <SidebarItem
                 icon={<SettingOutlined />}
                 label="Quản lý thiết bị"
-                href="manage"
+                href="/manage"
             />
 
             <SidebarItem

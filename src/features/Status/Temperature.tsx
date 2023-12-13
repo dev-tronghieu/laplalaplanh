@@ -58,14 +58,14 @@ const lineChartOptions: ChartOptions<"line"> = {
     },
 };
 
-const Temperature = () => {
+export const Temperature = () => {
     const [minute, setMinute] = useState(10);
     const [columns, setColumns] = useState(10);
 
     return (
         <div className="max-w-2xl">
             <div className="flex flex-col gap-4">
-                <div className="flex flex-1 gap-2 items-center">
+                <div className="flex flex-wrap flex-1 gap-2 items-center">
                     <label>Khoảng thời gian: {minute} phút</label>
                     <input
                         type="range"
@@ -77,7 +77,7 @@ const Temperature = () => {
                     />
                 </div>
 
-                <div className="flex flex-1 gap-2 items-center">
+                <div className="flex flex-wrap flex-1 gap-2 items-center">
                     <label>Số cột hiển thị: {columns}</label>
                     <input
                         type="range"
@@ -109,5 +109,3 @@ const Temperature = () => {
         </div>
     );
 };
-
-export default Temperature;

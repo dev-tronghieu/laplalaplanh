@@ -1,11 +1,11 @@
 import Auth from "@/components/Auth";
 import Container from "@/layouts/Container";
-import Dashboard from "@/pages/Dashboard";
 import { MenuOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useSnapshot } from "valtio";
 import Sidebar from "./layouts/Sidebar";
 import { authState } from "./valtio/auth";
+import { Outlet } from "react-router-dom";
 
 function App() {
     const authSnap = useSnapshot(authState);
@@ -35,7 +35,7 @@ function App() {
                             />
                         </div>
 
-                        <Dashboard />
+                        <Outlet />
                     </div>
                 </div>
             )}
