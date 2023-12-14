@@ -10,7 +10,7 @@ export const LightColor = () => {
         setColor(color);
         publish(
             LLLL_CHANNEL.ACTION_CHANGE_COLOR,
-            LLLL_ACTION_PARAMS.CHANGE_COLOR(color)
+            LLLL_ACTION_PARAMS.CHANGE_COLOR(color.slice(1))
         );
     }, 500);
 
