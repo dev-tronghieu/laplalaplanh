@@ -3,6 +3,7 @@ import { proxy } from "valtio";
 import { toast } from "react-toastify";
 import { mqttActions } from "./mqtt";
 import * as mqttService from "@/services/mqtt";
+import { type User } from "firebase/auth";
 
 export interface AuthProfile {
     uid: string;
@@ -21,44 +22,38 @@ export const authState = proxy<AuthState>({
 });
 
 export const authActions = {
-    login: async () => {
-        try {
-            const userCredential = await signInWithGoogle();
-            if (!userCredential.user.email) {
-                return toast.error("No email");
-            }
-
-            const user = await getUser(userCredential.user.email);
-            if (!user) {
-                return toast.error(
-                    "Tài khoản chưa được đăng ký, vui lòng liên hệ chủ thiết bị."
-                );
-            }
-
-            mqttActions.setDevices(user.devices);
-            user.devices.length > 0 &&
-                mqttActions.setActiveDevice(user.devices[0]);
-
-            authState.profile = {
-                uid: userCredential.user.uid,
-                email: userCredential.user.email ?? "No email",
-                displayName: userCredential.user.displayName ?? "User",
-                photoURL:
-                    userCredential.user.photoURL ?? "https://picsum.photos/200",
-            };
-
-            authState.isLoggedIn = true;
-
-            mqttService.start();
-        } catch (error) {
-            toast.error(error as string);
+    login: signInWithGoogle,
+    persistentLogin: async (persistentUser: User) => {
+        if (!persistentUser.email) {
+            return toast.error("Email chưa được đăng ký");
         }
+
+        const user = await getUser(persistentUser.email);
+
+        if (!user) {
+            return toast.error(
+                "Tài khoản chưa được đăng ký, vui lòng liên hệ chủ thiết bị."
+            );
+        }
+
+        mqttActions.setDevices(user.devices);
+        user.devices.length > 0 && mqttActions.setActiveDevice(user.devices[0]);
+
+        authState.profile = {
+            uid: persistentUser.uid,
+            email: persistentUser.email ?? "No email",
+            displayName: persistentUser.displayName ?? "User",
+            photoURL: persistentUser.photoURL ?? "https://picsum.photos/200",
+        };
+
+        authState.isLoggedIn = true;
+
+        mqttService.start();
     },
     logout: async () => {
         await signOut();
         authState.isLoggedIn = false;
         authState.profile = undefined;
         mqttService.stop();
-        toast.success("Đăng xuất thành công");
     },
 };

@@ -1,2 +1,2 @@
-export * from "./google_auth";
+export * from "./auth";
 export * from "./firestore";
