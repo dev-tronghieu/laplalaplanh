@@ -1,5 +1,6 @@
 import {
     LightColor,
+    LightEffect,
     OperatingMode,
     Power,
     SwitchDevice,
@@ -15,9 +16,9 @@ const DashboardPage = () => {
             <div className="flex flex-wrap gap-x-8 gap-y-4">
                 <Power />
                 <OperatingMode />
+                <LightColor />
+                <LightEffect />
             </div>
-
-            <LightColor />
 
             <Temperature />
 

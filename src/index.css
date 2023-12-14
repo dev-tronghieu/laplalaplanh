@@ -6,6 +6,9 @@
     input {
         @apply px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-secondary;
     }
+    select {
+        @apply border border-blue-500 p-1 rounded focus:outline-none;
+    }
 }
 
 @layer components {

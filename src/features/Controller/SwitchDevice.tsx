@@ -14,10 +14,7 @@ export const SwitchDevice = () => {
         <div className="flex items-centers gap-2">
             <Subtitle text="Thiết bị: " />
 
-            <select
-                className="border border-blue-500 p-1 rounded focus:outline-none"
-                onChange={handleChangeDevice}
-            >
+            <select onChange={handleChangeDevice}>
                 {mqttSnap.devices.map((device) => (
                     <option key={device} value={device}>
                         {device}
