@@ -11,10 +11,12 @@ function App() {
     const authSnap = useSnapshot(authState);
     const [collapsed, setCollapsed] = useState(true);
 
-    const containerAnimation = collapsed ? "" : "translate-x-64";
+    const containerAnimation = collapsed
+        ? "translate-x-0   "
+        : "translate-x-64";
 
     return (
-        <Container className="relative overflow-x-hidden">
+        <Container>
             {!authSnap.isLoggedIn && (
                 <div className="flex-1 flex justify-center items-center">
                     <Auth />
@@ -22,17 +24,19 @@ function App() {
             )}
 
             {authSnap.isLoggedIn && (
-                <div
-                    className={`absolute -left-64 flex-1 flex transition duration-300 ${containerAnimation}`}
-                >
-                    <Sidebar className="w-64 h-screen" />
+                <div className="flex-1 flex relative overflow-x-hidden">
+                    <Sidebar className="w-64 fixed z-10 left-0 top-0 h-screen" />
 
-                    <div className="px-4 flex-1 w-screen">
-                        <div className="my-4 border-b border-secondary">
+                    <div
+                        className={`bg-background px-4 py-2 transition duration-300 w-full absolute z-20 ${containerAnimation}`}
+                    >
+                        <div className="flex flex-col gap-2 mb-6">
                             <MenuOutlined
                                 className="text-2xl cursor-pointer rounded-md text-tertiary hover:text-primary transition select-none w-10 h-10 flex justify-center items-center"
                                 onClick={() => setCollapsed(!collapsed)}
                             />
+
+                            <div className="h-[1px] w-full bg-primary" />
                         </div>
 
                         <Outlet />

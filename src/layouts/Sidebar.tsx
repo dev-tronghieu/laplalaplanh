@@ -1,7 +1,6 @@
 import {
     LogoutOutlined,
     DashboardOutlined,
-    ProfileOutlined,
     SettingOutlined,
 } from "@ant-design/icons";
 import { ReactNode } from "react";
@@ -60,12 +59,6 @@ const Sidebar = ({ className }: SidebarProps) => {
                 icon={<DashboardOutlined />}
                 label="Bảng điều khiển"
                 href="/"
-            />
-
-            <SidebarItem
-                icon={<ProfileOutlined />}
-                label="Hồ sơ"
-                href="/profile"
             />
 
             <SidebarItem

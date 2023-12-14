@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import DashboardPage from "@/pages/Dashboard.tsx";
-import ProfilePage from "@/pages/Profile.tsx";
 import ManagePage from "@/pages/Manage.tsx";
 
 import "./index.css";
@@ -19,10 +18,6 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <DashboardPage />,
-            },
-            {
-                path: "/profile",
-                element: <ProfilePage />,
             },
             {
                 path: "/manage",
