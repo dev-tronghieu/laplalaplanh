@@ -7,7 +7,6 @@
 `topic` = `laplalaplanh/{channel}/{device-id}` (e.g. `laplalaplanh/status/dv1`)
 
 - Available channels:
-  - `hello`: For testing purposes
   - `status`: Device status
   - `action`: User actions
 
@@ -30,9 +29,7 @@
 
 #### Device status (sent after every 30s) (`channel/device-id`)
 
-- Battery level (?)
 - Light temperature
-- Environment brightness
 - Operating mode (automatic, manual, etc.)
 - Effect
 - Color
