@@ -21,8 +21,6 @@ export const mqttActions = {
     },
     setActiveDevice: (device: string) => {
         mqttState.activeDevice = device;
-        toast.success(
-            `Kết nối thành công tới thiết bị: ${mqttState.activeDevice}`
-        );
+        toast.success(`Kết nối thiết bị: ${mqttState.activeDevice}`);
     },
 };
