@@ -6,14 +6,28 @@ import { useSnapshot } from "valtio";
 import Sidebar from "./layouts/Sidebar";
 import { authState } from "./valtio/auth";
 import { Outlet } from "react-router-dom";
+import { mqttState } from "./valtio/mqtt";
 
 function App() {
     const authSnap = useSnapshot(authState);
+    const mqttSnap = useSnapshot(mqttState);
     const [collapsed, setCollapsed] = useState(true);
 
     const containerAnimation = collapsed
         ? "translate-x-0   "
         : "translate-x-64";
+
+    if (!mqttSnap.isConnected) {
+        return (
+            <Container>
+                <div className="flex-1 flex justify-center items-center">
+                    <div className="text-3xl font-bold text-tertiary">
+                        Đang kết nối...
+                    </div>
+                </div>
+            </Container>
+        );
+    }
 
     return (
         <Container>

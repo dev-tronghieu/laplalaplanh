@@ -57,6 +57,7 @@ export const mqttClient = mqtt.connect(import.meta.env.VITE_MQTT, {
 });
 
 mqttClient.on("connect", () => {
+    mqttActions.setConnected(true);
     console.log("MQTT Connected");
 });
 
