@@ -2,14 +2,13 @@ import { mqttActions, mqttState } from "@/valtio/mqtt";
 import mqtt from "mqtt";
 import { toast } from "react-toastify";
 
-export const LLLL_PREFIX = "laplalaplanh/";
+export const LLLL_CHANNEL = "laplalaplanh/action";
 
-export enum LLLL_CHANNEL {
-    HELLO = LLLL_PREFIX + "hello",
-    ACTION_SET_POWER = LLLL_PREFIX + "action/power",
-    ACTION_SET_OPERATING_MODE = LLLL_PREFIX + "action/operation-mode",
-    ACTION_CHANGE_EFFECT = LLLL_PREFIX + "action/effect",
-    ACTION_CHANGE_COLOR = LLLL_PREFIX + "action/color",
+export enum LLLL_ACTION_TYPE {
+    SET_POWER = "set-power",
+    SET_OPERATING_MODE = "set-operating-mode",
+    CHANGE_EFFECT = "change-effect",
+    CHANGE_COLOR = "change-color",
 }
 
 export const LLLL_ACTION_PARAMS = {
@@ -29,28 +28,20 @@ export const LLLL_ACTION_PARAMS = {
     CHANGE_COLOR: (color: string) => color,
 };
 
-export const getTopicFromChannel = (channel: LLLL_CHANNEL) => {
-    return `${channel}/${mqttState.activeDevice}`;
+export interface LLLL_ACTION_PAYLOAD {
+    id: string;
+    type: LLLL_ACTION_TYPE;
+    data: string;
+}
+
+export const getTopicFromChannel = () => {
+    return `${LLLL_CHANNEL}/${mqttState.activeDevice}`;
 };
 
 export const getChannelFromTopic = (topic: string) => {
     const topicParts = topic.split("/");
     const channel = topicParts.splice(0, topicParts.length - 1).join("/");
     return channel;
-};
-
-const subscribeAll = () => {
-    const channels = Object.values(LLLL_CHANNEL);
-    channels.forEach((channel) =>
-        mqttClient.subscribe(getTopicFromChannel(channel))
-    );
-};
-
-const unsubscribeAll = () => {
-    const channels = Object.values(LLLL_CHANNEL);
-    channels.forEach((channel) =>
-        mqttClient.unsubscribe(getTopicFromChannel(channel))
-    );
 };
 
 const handleReceiveMessage: mqtt.OnMessageCallback = (
@@ -74,20 +65,26 @@ export const start = () => {
         toast.error("Vui lòng chọn thiết bị");
         return;
     }
-    subscribeAll();
+    mqttClient.subscribe(getTopicFromChannel());
     mqttClient.on("message", handleReceiveMessage);
 };
 
 export const stop = () => {
-    unsubscribeAll();
+    mqttClient.unsubscribe(getTopicFromChannel());
 };
 
 export const changeDevice = (deviceId: string) => {
-    unsubscribeAll();
+    mqttClient.unsubscribe(getTopicFromChannel());
     mqttActions.setActiveDevice(deviceId);
-    subscribeAll();
+    mqttClient.subscribe(getTopicFromChannel());
 };
 
-export const publish = (channel: LLLL_CHANNEL, message: string) => {
-    mqttClient.publish(getTopicFromChannel(channel), message);
+export const publish = (type: LLLL_ACTION_TYPE, data: string) => {
+    const payload: LLLL_ACTION_PAYLOAD = {
+        id: crypto.randomUUID(),
+        type,
+        data,
+    };
+    const payloadString = JSON.stringify(payload);
+    mqttClient.publish(getTopicFromChannel(), payloadString);
 };

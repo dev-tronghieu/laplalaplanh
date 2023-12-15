@@ -1,6 +1,6 @@
 import { Toggle } from "@/components";
 import Subtitle from "@/components/Subtitle";
-import { LLLL_ACTION_PARAMS, LLLL_CHANNEL, publish } from "@/services/mqtt";
+import { LLLL_ACTION_PARAMS, LLLL_ACTION_TYPE, publish } from "@/services/mqtt";
 import { useState } from "react";
 
 export const OperatingMode = () => {
@@ -8,7 +8,7 @@ export const OperatingMode = () => {
 
     const handleManual = () => {
         publish(
-            LLLL_CHANNEL.ACTION_SET_OPERATING_MODE,
+            LLLL_ACTION_TYPE.SET_OPERATING_MODE,
             LLLL_ACTION_PARAMS.SET_OPERATING_MODE.MANUAL
         );
         setIsManual(true);
@@ -16,7 +16,7 @@ export const OperatingMode = () => {
 
     const handleAuto = () => {
         publish(
-            LLLL_CHANNEL.ACTION_SET_OPERATING_MODE,
+            LLLL_ACTION_TYPE.SET_OPERATING_MODE,
             LLLL_ACTION_PARAMS.SET_OPERATING_MODE.AUTO
         );
         setIsManual(false);
