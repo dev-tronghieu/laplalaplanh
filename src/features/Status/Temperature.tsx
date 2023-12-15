@@ -88,7 +88,8 @@ export const Temperature = () => {
                             data: getLabelsByMinute(minute, columns).map(
                                 () => Math.random() * 20 + 20
                             ),
-                            borderColor: "rgb(75, 192, 192)",
+                            borderColor: "#39A7FF",
+                            backgroundColor: "#39A7FF",
                         },
                     ],
                 }}
@@ -99,7 +100,6 @@ export const Temperature = () => {
                     <label>Khoảng thời gian: {minute} phút</label>
                     <input
                         type="range"
-                        // value={minute}
                         onChange={(e) =>
                             debouncedMinuteChange(Number(e.target.value))
                         }
@@ -113,7 +113,6 @@ export const Temperature = () => {
                     <label>Số cột hiển thị: {columns}</label>
                     <input
                         type="range"
-                        // value={columns}
                         onChange={(e) =>
                             debouncedColumnsChange(Number(e.target.value))
                         }
