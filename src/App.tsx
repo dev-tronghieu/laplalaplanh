@@ -28,7 +28,7 @@ function App() {
                     <Sidebar className="w-64 fixed z-10 left-0 top-0 h-screen" />
 
                     <div
-                        className={`bg-background px-4 py-2 transition duration-300 w-full absolute z-20 ${containerAnimation}`}
+                        className={`min-h-screen bg-background px-4 py-2 transition duration-300 w-full absolute z-20 ${containerAnimation}`}
                     >
                         <div className="flex flex-col gap-2 mb-6">
                             <MenuOutlined

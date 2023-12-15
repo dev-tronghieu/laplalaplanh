@@ -7,9 +7,7 @@ interface Props {
 
 const Container = ({ children, className }: Props) => {
     return (
-        <div
-            className={`min-h-screen flex flex-col bg-background ${className}`}
-        >
+        <div className={`min-h-screen flex flex-col ${className}`}>
             {children}
         </div>
     );
