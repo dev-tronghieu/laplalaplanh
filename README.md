@@ -7,7 +7,6 @@
 `topic` = `laplalaplanh/{channel}/{device-id}` (e.g. `laplalaplanh/status/dv1`)
 
 - Available channels:
-  - `hello`: For testing purposes
   - `status`: Device status
   - `action`: User actions
 
@@ -28,9 +27,8 @@
 
 ### From `ESP32` to `Server` to `Cloud`
 
-#### Device status (sent after every 30s) (`channel/device-id`)
+`topic` = `laplalaplanh/status/{device-id}` (e.g. `laplalaplanh/status/dv1`)
 
-- Battery level (?)
 - Light temperature
 - Environment brightness
 - Operating mode (automatic, manual, etc.)
@@ -38,16 +36,6 @@
 - Color
 - Timestamp
 
-#### User Actions (sent after executing an action from the server)
-
-- Action Id
-- Success or failure
-
 ### From `Client` to `ESP32`
 
-#### User Actions
-
-- User Id
-- Action Id
-- Action
-- Timestamp
+`topic` = `laplalaplanh/action/action-id/{device-id}` (e.g. `laplalaplanh/action/color/dv1`)
