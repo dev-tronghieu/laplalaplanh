@@ -48,6 +48,9 @@ const getLabelsByMinute = (period: number, columns: number) => {
     return labels;
 };
 
+const SAFE_THRESHOLD = 40;
+const WARNING_THRESHOLD = 56;
+
 const lineChartOptions: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
@@ -60,6 +63,37 @@ const lineChartOptions: ChartOptions<"line"> = {
         },
     },
     maintainAspectRatio: true,
+    scales: {
+        x: {
+            display: true,
+            title: {
+                display: true,
+                text: "Thời gian",
+            },
+        },
+        y: {
+            display: true,
+            title: {
+                display: true,
+                text: "Nhiệt độ (°C)",
+            },
+            ticks: {
+                callback: (value) => {
+                    if ((value as number) === SAFE_THRESHOLD)
+                        return `${value} (Cảnh báo)`;
+                    if ((value as number) === WARNING_THRESHOLD)
+                        return `${value} (Nguy hiểm)`;
+                    return value;
+                },
+                color: (value) => {
+                    if (value.tick.value < SAFE_THRESHOLD) return "#000000";
+                    if (value.tick.value < WARNING_THRESHOLD) return "#FFA500";
+                    return "#FF0000";
+                },
+                stepSize: 2,
+            },
+        },
+    },
 };
 
 export const Temperature = () => {
@@ -86,7 +120,7 @@ export const Temperature = () => {
                         {
                             label: "Nhiệt độ",
                             data: getLabelsByMinute(minute, columns).map(
-                                () => Math.random() * 20 + 20
+                                () => Math.random() * 30 + 30
                             ),
                             borderColor: "#39A7FF",
                             backgroundColor: "#39A7FF",
