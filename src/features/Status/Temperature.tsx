@@ -109,13 +109,22 @@ export const Temperature = () => {
                 }}
             />
 
-            <div className="flex flex-wrap items-center gap-2">
-                <label>Số dữ liệu hiển thị:</label>
-                <input
-                    type="number"
-                    defaultValue={mqttSnap.limit}
-                    onChange={(e) => debounceSetLimit(parseInt(e.target.value))}
-                />
+            <div className="flex flex-wrap gap-4 items-center">
+                <div className="flex flex-wrap items-center gap-2">
+                    <label>Số dữ liệu hiển thị:</label>
+                    <input
+                        type="number"
+                        defaultValue={mqttSnap.limit}
+                        onChange={(e) =>
+                            debounceSetLimit(parseInt(e.target.value))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                    <label>Kể từ thời điểm:</label>
+                    <input type="datetime-local" />
+                </div>
             </div>
         </div>
     );
