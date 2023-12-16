@@ -10,7 +10,6 @@ import {
     Legend,
     ChartOptions,
 } from "chart.js";
-import { useState } from "react";
 
 ChartJS.register(
     CategoryScale,
@@ -22,31 +21,10 @@ ChartJS.register(
     Legend
 );
 
-import { debounce } from "lodash";
-
 import { Line } from "react-chartjs-2";
-
-const getLabelsByMinute = (period: number, columns: number) => {
-    const now = new Date();
-    const labels = [];
-
-    for (
-        let i = now.getMinutes() - (now.getMinutes() % period);
-        i >= now.getMinutes() - period * (columns + 1);
-        i -= period
-    ) {
-        const date = new Date(now);
-        date.setMinutes(i);
-        labels.unshift(
-            date.toLocaleTimeString("vi-VN", {
-                hour: "2-digit",
-                minute: "2-digit",
-            })
-        );
-    }
-
-    return labels;
-};
+import { useSnapshot } from "valtio";
+import { mqttActions, mqttState } from "@/valtio/mqtt";
+import { debounce } from "lodash";
 
 const SAFE_THRESHOLD = 40;
 const WARNING_THRESHOLD = 56;
@@ -69,6 +47,9 @@ const lineChartOptions: ChartOptions<"line"> = {
             title: {
                 display: true,
                 text: "Thời gian",
+            },
+            grid: {
+                display: false,
             },
         },
         y: {
@@ -97,16 +78,11 @@ const lineChartOptions: ChartOptions<"line"> = {
 };
 
 export const Temperature = () => {
-    const [minute, setMinute] = useState(10);
-    const [columns, setColumns] = useState(10);
+    const mqttSnap = useSnapshot(mqttState);
 
-    const debouncedMinuteChange = debounce((value) => {
-        setMinute(value);
-    }, 200);
-
-    const debouncedColumnsChange = debounce((value) => {
-        setColumns(value);
-    }, 200);
+    const debounceSetLimit = debounce((limit: number) => {
+        mqttActions.setLimit(limit);
+    }, 500);
 
     return (
         <div className="max-w-2xl">
@@ -115,12 +91,16 @@ export const Temperature = () => {
             <Line
                 options={lineChartOptions}
                 data={{
-                    labels: getLabelsByMinute(minute, columns),
+                    labels: mqttSnap.activeStatusLogs.map((log) => {
+                        const date = new Date(0);
+                        date.setUTCSeconds(log.epochTime);
+                        return date.toLocaleTimeString("vi-VN");
+                    }),
                     datasets: [
                         {
                             label: "Nhiệt độ",
-                            data: getLabelsByMinute(minute, columns).map(
-                                () => Math.random() * 30 + 30
+                            data: mqttSnap.activeStatusLogs.map(
+                                (log) => log.temperature
                             ),
                             borderColor: "#39A7FF",
                             backgroundColor: "#39A7FF",
@@ -129,32 +109,13 @@ export const Temperature = () => {
                 }}
             />
 
-            <div className="flex flex-col gap-2 max-w-[300px]">
-                <div className="flex flex-col gap-2">
-                    <label>Khoảng thời gian: {minute} phút</label>
-                    <input
-                        type="range"
-                        onChange={(e) =>
-                            debouncedMinuteChange(Number(e.target.value))
-                        }
-                        min={5}
-                        max={60}
-                        step={5}
-                    />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                    <label>Số cột hiển thị: {columns}</label>
-                    <input
-                        type="range"
-                        onChange={(e) =>
-                            debouncedColumnsChange(Number(e.target.value))
-                        }
-                        min={6}
-                        max={18}
-                        step={1}
-                    />
-                </div>
+            <div className="flex flex-wrap items-center gap-2">
+                <label>Số dữ liệu hiển thị:</label>
+                <input
+                    type="number"
+                    defaultValue={mqttSnap.limit}
+                    onChange={(e) => debounceSetLimit(parseInt(e.target.value))}
+                />
             </div>
         </div>
     );

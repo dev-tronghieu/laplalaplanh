@@ -74,7 +74,7 @@ export const stop = () => {
     mqttClient.unsubscribe(getTopicFromChannel());
 };
 
-export const changeDevice = () => {
+export const reSubscribe = () => {
     mqttClient.unsubscribe(getTopicFromChannel());
     mqttClient.subscribe(getTopicFromChannel());
 };
