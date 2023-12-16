@@ -37,7 +37,8 @@ export const authActions = {
         }
 
         mqttActions.setDevices(user.devices);
-        user.devices.length > 0 && mqttActions.setActiveDevice(user.devices[0]);
+        user.devices.length > 0 &&
+            (await mqttActions.setActiveDevice(user.devices[0]));
 
         authState.profile = {
             uid: persistentUser.uid,

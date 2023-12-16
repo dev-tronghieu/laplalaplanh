@@ -1,3 +1,4 @@
+import { changeDevice } from "@/services/mqtt";
 import { toast } from "react-toastify";
 import { proxy } from "valtio";
 
@@ -19,8 +20,9 @@ export const mqttActions = {
     setDevices: (devices: string[]) => {
         mqttState.devices = devices;
     },
-    setActiveDevice: (device: string) => {
+    setActiveDevice: async (device: string) => {
         mqttState.activeDevice = device;
+        changeDevice();
         toast.success(`Kết nối thiết bị: ${mqttState.activeDevice}`);
     },
 };
