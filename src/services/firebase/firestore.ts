@@ -35,6 +35,7 @@ export interface StatusLog {
 
 export const watchStatusLogsByEpochTime = async (
     device: string,
+    fromEpochTime: number,
     toEpochTime: number,
     callback: (data: StatusLog[]) => void,
     limit: number = 5
@@ -43,6 +44,7 @@ export const watchStatusLogsByEpochTime = async (
 
     const q = query(
         statusLogsRef,
+        where("epochTime", ">=", fromEpochTime),
         where("epochTime", "<=", toEpochTime),
         orderBy("epochTime", "desc"),
         FirestoreLimit(limit)

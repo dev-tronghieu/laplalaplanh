@@ -84,6 +84,16 @@ export const Temperature = () => {
         mqttActions.setLimit(limit);
     }, 500);
 
+    const handleSetFromDatetime = (datetime: string) => {
+        const epochTime = new Date(datetime).getTime() / 1000;
+        mqttActions.setFromEpochTime(epochTime);
+    };
+
+    const handleSetToDatetime = (datetime: string) => {
+        const epochTime = new Date(datetime).getTime() / 1000;
+        mqttActions.setToEpochTime(epochTime);
+    };
+
     return (
         <div className="max-w-2xl">
             <Subtitle text="Nhiệt độ đèn" />
@@ -116,14 +126,25 @@ export const Temperature = () => {
                         type="number"
                         defaultValue={mqttSnap.limit}
                         onChange={(e) =>
-                            debounceSetLimit(parseInt(e.target.value))
+                            debounceSetLimit(parseInt(e.target.value) || 8)
                         }
                     />
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
-                    <label>Kể từ thời điểm:</label>
-                    <input type="datetime-local" />
+                    <label>Từ thời điểm</label>
+                    <input
+                        type="datetime-local"
+                        onChange={(e) => handleSetFromDatetime(e.target.value)}
+                    />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                    <label>Tới thời điểm</label>
+                    <input
+                        type="datetime-local"
+                        onChange={(e) => handleSetToDatetime(e.target.value)}
+                    />
                 </div>
             </div>
         </div>

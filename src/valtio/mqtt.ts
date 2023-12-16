@@ -10,6 +10,7 @@ export interface MqttState {
     activeStatusLogs: StatusLog[];
     unsubscribe?: () => void;
     limit: number;
+    fromEpochTime: number;
     toEpochTime: number;
 }
 
@@ -18,6 +19,7 @@ export const mqttState = proxy<MqttState>({
     devices: [],
     activeStatusLogs: [],
     limit: 8,
+    fromEpochTime: new Date().setHours(0, 0, 0, 0) / 1000,
     toEpochTime: new Date().setHours(23, 59, 59, 999) / 1000,
 });
 
@@ -39,8 +41,14 @@ export const mqttActions = {
         mqttActions.watchStatusLogs(mqttState.activeDevice!);
     },
 
+    setFromEpochTime: (fromEpochTime: number) => {
+        mqttState.fromEpochTime = fromEpochTime;
+        mqttActions.watchStatusLogs(mqttState.activeDevice!);
+    },
+
     setToEpochTime: (toEpochTime: number) => {
         mqttState.toEpochTime = toEpochTime;
+        mqttActions.watchStatusLogs(mqttState.activeDevice!);
     },
 
     watchStatusLogs: async (device: string) => {
@@ -48,6 +56,7 @@ export const mqttActions = {
 
         mqttState.unsubscribe = await watchStatusLogsByEpochTime(
             device,
+            mqttState.fromEpochTime,
             mqttState.toEpochTime,
             mqttActions.setActiveStatusLogs,
             mqttState.limit
