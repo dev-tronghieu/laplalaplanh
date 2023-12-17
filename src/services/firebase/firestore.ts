@@ -1,14 +1,20 @@
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import {
+    getFirestore,
+    collection,
+    doc,
+    getDoc,
+    query,
+    orderBy,
+    limit as FirestoreLimit,
+    where,
+    onSnapshot,
+} from "firebase/firestore";
 import { firebaseApp } from "./setup";
 
 const db = getFirestore(firebaseApp);
 
 export interface FirestoreUser {
     devices: string[];
-}
-
-export interface FirestoreDevice {
-    owner: string;
 }
 
 export const getUser = async (email: string) => {
@@ -20,4 +26,41 @@ export const getUser = async (email: string) => {
     } else {
         return null;
     }
+};
+
+export interface StatusLog {
+    temperature: number;
+    epochTime: number;
+}
+
+export const watchStatusLogsByEpochTime = async (
+    device: string,
+    fromEpochTime: number,
+    toEpochTime: number,
+    callback: (data: StatusLog[]) => void,
+    limit: number = 5
+) => {
+    const statusLogsRef = collection(db, "Devices", device, "StatusLogs");
+
+    const q = query(
+        statusLogsRef,
+        where("epochTime", ">=", fromEpochTime),
+        where("epochTime", "<=", toEpochTime),
+        orderBy("epochTime", "desc"),
+        FirestoreLimit(limit)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const data: StatusLog[] = [];
+
+        querySnapshot.forEach((doc) => {
+            data.unshift(doc.data() as StatusLog);
+        });
+
+        if (callback) {
+            callback(data);
+        }
+    });
+
+    return unsubscribe;
 };

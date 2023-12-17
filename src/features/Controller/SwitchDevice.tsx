@@ -1,13 +1,13 @@
 import Subtitle from "@/components/Subtitle";
-import { changeDevice } from "@/services/mqtt";
-import { mqttState } from "@/valtio/mqtt";
+import { mqttActions, mqttState } from "@/valtio/mqtt";
+import { ChangeEvent } from "react";
 import { useSnapshot } from "valtio";
 
 export const SwitchDevice = () => {
     const mqttSnap = useSnapshot(mqttState);
 
-    const handleChangeDevice = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        changeDevice(e.target.value);
+    const handleChangeDevice = async (e: ChangeEvent<HTMLSelectElement>) => {
+        await mqttActions.setActiveDevice(e.target.value);
     };
 
     return (
