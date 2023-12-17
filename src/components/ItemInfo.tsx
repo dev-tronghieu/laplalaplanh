@@ -1,11 +1,11 @@
 import { EditOutlined } from "@ant-design/icons";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface Props {
   title: string;
   content: string;
   isEditabled?: boolean;
-  onEdit?: () => void;
+  onEdit?: (content: string) => void;
 }
 
 const ItemInfo: FC<Props> = ({
@@ -14,17 +14,43 @@ const ItemInfo: FC<Props> = ({
   isEditabled = false,
   onEdit,
 }) => {
+  const [editedContent, setEditedContent] = useState(content);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      setIsEditing(false);
+    }
+  };
+
   return (
     <div className="flex justify-between">
       <div className="flex gap-1 items-center">
         <h1 className="text-large text-tertiary font-medium">{title}</h1>
         {isEditabled && (
-          <button className="flex items-center" onClick={onEdit}>
+          <button
+            className="flex items-center"
+            onClick={() => {
+              setIsEditing(!isEditing);
+              if (onEdit) {
+                onEdit(editedContent);
+              }
+            }}
+          >
             <EditOutlined className="text-primary cursor-pointer" />
           </button>
         )}
       </div>
-      <p className="text-large">{content}</p>
+      {isEditing ? (
+        <input
+          type="text"
+          value={editedContent}
+          onChange={(text) => setEditedContent(text.target.value)}
+          onKeyDown={(event) => handleKeyDown(event)}
+        />
+      ) : (
+        <p className="text-large">{editedContent}</p>
+      )}
     </div>
   );
 };
