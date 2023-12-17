@@ -7,7 +7,7 @@ const ManagePage = () => {
     <div>
       <SwitchDevice />
       <DeviceInfo id="123" name="Device 1" onwer="John Doe" />
-      <Access />
+      <Access accessList={["abcd@gmail.com"]} />
     </div>
   );
 };
