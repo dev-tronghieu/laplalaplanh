@@ -1,13 +1,15 @@
 import Subtitle from "@/components/Subtitle";
-import { useState } from "react";
 import { debounce } from "lodash";
 import { LLLL_ACTION_PARAMS, LLLL_ACTION_TYPE, publish } from "@/services/mqtt";
+import { useSnapshot } from "valtio";
+import { mqttState } from "@/valtio/mqtt";
 
 export const LightColor = () => {
-    const [color, setColor] = useState<string>("#ffffff");
+    const mqttSnap = useSnapshot(mqttState);
+
+    const color = "#" + mqttSnap.config.color;
 
     const handleColorChange = debounce((color: string) => {
-        setColor(color);
         publish(
             LLLL_ACTION_TYPE.CHANGE_COLOR,
             LLLL_ACTION_PARAMS.CHANGE_COLOR(color.slice(1))

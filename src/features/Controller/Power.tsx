@@ -1,19 +1,19 @@
 import { Toggle } from "@/components";
 import Subtitle from "@/components/Subtitle";
 import { LLLL_ACTION_PARAMS, LLLL_ACTION_TYPE, publish } from "@/services/mqtt";
-import { useState } from "react";
+import { mqttState } from "@/valtio/mqtt";
+import { useSnapshot } from "valtio";
 
 export const Power = () => {
-    const [isOn, setIsOn] = useState(false);
+    const mqttSnap = useSnapshot(mqttState);
+    const isOn = mqttSnap.config.power === LLLL_ACTION_PARAMS.SET_POWER.ON;
 
     const handleOn = () => {
         publish(LLLL_ACTION_TYPE.SET_POWER, LLLL_ACTION_PARAMS.SET_POWER.ON);
-        setIsOn(true);
     };
 
     const handleOff = () => {
         publish(LLLL_ACTION_TYPE.SET_POWER, LLLL_ACTION_PARAMS.SET_POWER.OFF);
-        setIsOn(false);
     };
 
     const handleToggle = () => {

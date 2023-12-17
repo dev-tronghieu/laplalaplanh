@@ -64,3 +64,30 @@ export const watchStatusLogsByEpochTime = async (
 
     return unsubscribe;
 };
+
+type Power = "on" | "off";
+type OperatingMode = "auto" | "manual";
+type Effect = "single-color" | "flashing" | "rainbow";
+
+export interface DeviceConfig {
+    power: Power;
+    operatingMode: OperatingMode;
+    effect: Effect;
+    color: string;
+}
+
+export const watchConfig = async (
+    device: string,
+    callback: (data: DeviceConfig) => void
+) => {
+    const configRef = doc(db, "Devices", device);
+
+    const unsubscribe = onSnapshot(configRef, (doc) => {
+        if (doc.exists()) {
+            const data = doc.data().config as DeviceConfig;
+            callback(data);
+        }
+    });
+
+    return unsubscribe;
+};
