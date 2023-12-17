@@ -1,17 +1,20 @@
 import { Toggle } from "@/components";
 import Subtitle from "@/components/Subtitle";
 import { LLLL_ACTION_PARAMS, LLLL_ACTION_TYPE, publish } from "@/services/mqtt";
-import { useState } from "react";
+import { mqttState } from "@/valtio/mqtt";
+import { useSnapshot } from "valtio";
 
 export const OperatingMode = () => {
-    const [isManual, setIsManual] = useState(false);
+    const mqttSnap = useSnapshot(mqttState);
+    const isManual =
+        mqttSnap.config.operatingMode ===
+        LLLL_ACTION_PARAMS.SET_OPERATING_MODE.MANUAL;
 
     const handleManual = () => {
         publish(
             LLLL_ACTION_TYPE.SET_OPERATING_MODE,
             LLLL_ACTION_PARAMS.SET_OPERATING_MODE.MANUAL
         );
-        setIsManual(true);
     };
 
     const handleAuto = () => {
@@ -19,7 +22,6 @@ export const OperatingMode = () => {
             LLLL_ACTION_TYPE.SET_OPERATING_MODE,
             LLLL_ACTION_PARAMS.SET_OPERATING_MODE.AUTO
         );
-        setIsManual(false);
     };
 
     const handleToggle = () => {

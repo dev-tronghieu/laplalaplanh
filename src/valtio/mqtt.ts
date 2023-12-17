@@ -1,4 +1,9 @@
-import { StatusLog, watchStatusLogsByEpochTime } from "@/services/firebase";
+import {
+    DeviceConfig,
+    StatusLog,
+    watchConfig,
+    watchStatusLogsByEpochTime,
+} from "@/services/firebase";
 import { reSubscribe } from "@/services/mqtt";
 import { toast } from "react-toastify";
 import { proxy } from "valtio";
@@ -8,10 +13,12 @@ export interface MqttState {
     devices: string[];
     activeDevice?: string;
     activeStatusLogs: StatusLog[];
-    unsubscribe?: () => void;
+    unsubscribeStatusLogs?: () => void;
     limit: number;
     fromEpochTime: number;
     toEpochTime: number;
+    config: DeviceConfig;
+    unsubscribeConfig?: () => void;
 }
 
 export const mqttState = proxy<MqttState>({
@@ -21,6 +28,12 @@ export const mqttState = proxy<MqttState>({
     limit: 8,
     fromEpochTime: new Date().setHours(0, 0, 0, 0) / 1000,
     toEpochTime: new Date().setHours(23, 59, 59, 999) / 1000,
+    config: {
+        power: "off",
+        operatingMode: "auto",
+        effect: "single-color",
+        color: "#ffffff",
+    },
 });
 
 export const mqttActions = {
@@ -52,9 +65,9 @@ export const mqttActions = {
     },
 
     watchStatusLogs: async (device: string) => {
-        mqttState.unsubscribe?.();
+        mqttState.unsubscribeStatusLogs?.();
 
-        mqttState.unsubscribe = await watchStatusLogsByEpochTime(
+        mqttState.unsubscribeStatusLogs = await watchStatusLogsByEpochTime(
             device,
             mqttState.fromEpochTime,
             mqttState.toEpochTime,
@@ -63,8 +76,17 @@ export const mqttActions = {
         );
     },
 
+    watchConfig: async (device: string) => {
+        mqttState.unsubscribeConfig?.();
+
+        mqttState.unsubscribeConfig = await watchConfig(device, (config) => {
+            mqttState.config = config;
+        });
+    },
+
     setActiveDevice: async (device: string) => {
         mqttActions.watchStatusLogs(device);
+        mqttActions.watchConfig(device);
 
         mqttState.activeDevice = device;
 
