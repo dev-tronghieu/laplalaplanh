@@ -7,7 +7,13 @@ export const SwitchDevice = () => {
     const mqttSnap = useSnapshot(mqttState);
 
     const handleChangeDevice = async (e: ChangeEvent<HTMLSelectElement>) => {
-        await mqttActions.setActiveDevice(e.target.value);
+        const device = mqttSnap.devices.find(
+            (device) => device.id === e.target.value
+        );
+
+        if (!device) return;
+
+        await mqttActions.setActiveDevice(device);
     };
 
     return (
@@ -16,8 +22,8 @@ export const SwitchDevice = () => {
 
             <select onChange={handleChangeDevice}>
                 {mqttSnap.devices.map((device) => (
-                    <option key={device} value={device}>
-                        {device}
+                    <option key={device.id} value={device.id}>
+                        {device.name}
                     </option>
                 ))}
             </select>

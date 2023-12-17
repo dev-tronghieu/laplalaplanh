@@ -1,4 +1,10 @@
-import { getUser, signInWithGoogle, signOut } from "@/services/firebase";
+import {
+    LlllDevice,
+    getDevice,
+    getUser,
+    signInWithGoogle,
+    signOut,
+} from "@/services/firebase";
 import { proxy } from "valtio";
 import { toast } from "react-toastify";
 import { mqttActions } from "./mqtt";
@@ -36,9 +42,18 @@ export const authActions = {
             );
         }
 
-        mqttActions.setDevices(user.devices);
-        user.devices.length > 0 &&
-            (await mqttActions.setActiveDevice(user.devices[0]));
+        const devices: LlllDevice[] = [];
+
+        for (const deviceId of user.devices) {
+            const device = await getDevice(deviceId);
+            if (device) {
+                devices.push(device);
+            }
+        }
+
+        mqttActions.setDevices(devices);
+
+        devices.length > 0 && (await mqttActions.setActiveDevice(devices[0]));
 
         authState.profile = {
             uid: persistentUser.uid,

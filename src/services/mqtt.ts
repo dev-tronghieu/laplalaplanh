@@ -35,7 +35,7 @@ export interface LLLL_ACTION_PAYLOAD {
 }
 
 export const getTopicFromChannel = () => {
-    return `${LLLL_CHANNEL}/${mqttState.activeDevice}`;
+    return `${LLLL_CHANNEL}/${mqttState.activeDevice.id}`;
 };
 
 export const getChannelFromTopic = (topic: string) => {
@@ -62,7 +62,7 @@ mqttClient.on("connect", () => {
 });
 
 export const start = () => {
-    if (!mqttState.activeDevice) {
+    if (!mqttState.activeDevice.id) {
         toast.error("Vui lòng chọn thiết bị");
         return;
     }

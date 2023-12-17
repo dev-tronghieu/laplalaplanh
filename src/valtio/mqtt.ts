@@ -1,5 +1,6 @@
 import {
     DeviceConfig,
+    LlllDevice,
     StatusLog,
     watchConfig,
     watchStatusLogsByEpochTime,
@@ -10,11 +11,11 @@ import { proxy } from "valtio";
 
 export interface MqttState {
     isConnected: boolean;
-    devices: string[];
-    activeDevice?: string;
+    devices: LlllDevice[];
+    activeDevice: LlllDevice;
     activeStatusLogs: StatusLog[];
     unsubscribeStatusLogs?: () => void;
-    limit: number;
+    logLimit: number;
     fromEpochTime: number;
     toEpochTime: number;
     config: DeviceConfig;
@@ -24,8 +25,13 @@ export interface MqttState {
 export const mqttState = proxy<MqttState>({
     isConnected: false,
     devices: [],
+    activeDevice: {
+        id: "",
+        name: "",
+        owner: "",
+    },
     activeStatusLogs: [],
-    limit: 8,
+    logLimit: 8,
     fromEpochTime: new Date().setHours(0, 0, 0, 0) / 1000,
     toEpochTime: new Date().setHours(23, 59, 59, 999) / 1000,
     config: {
@@ -41,7 +47,7 @@ export const mqttActions = {
         mqttState.isConnected = connected;
     },
 
-    setDevices: (devices: string[]) => {
+    setDevices: (devices: LlllDevice[]) => {
         mqttState.devices = devices;
     },
 
@@ -50,18 +56,18 @@ export const mqttActions = {
     },
 
     setLimit: (limit: number) => {
-        mqttState.limit = limit;
-        mqttActions.watchStatusLogs(mqttState.activeDevice!);
+        mqttState.logLimit = limit;
+        mqttActions.watchStatusLogs(mqttState.activeDevice.id);
     },
 
     setFromEpochTime: (fromEpochTime: number) => {
         mqttState.fromEpochTime = fromEpochTime;
-        mqttActions.watchStatusLogs(mqttState.activeDevice!);
+        mqttActions.watchStatusLogs(mqttState.activeDevice.id);
     },
 
     setToEpochTime: (toEpochTime: number) => {
         mqttState.toEpochTime = toEpochTime;
-        mqttActions.watchStatusLogs(mqttState.activeDevice!);
+        mqttActions.watchStatusLogs(mqttState.activeDevice.id);
     },
 
     watchStatusLogs: async (device: string) => {
@@ -72,26 +78,23 @@ export const mqttActions = {
             mqttState.fromEpochTime,
             mqttState.toEpochTime,
             mqttActions.setActiveStatusLogs,
-            mqttState.limit
+            mqttState.logLimit
         );
     },
 
-    watchConfig: async (device: string) => {
+    watchConfig: async (deviceId: string) => {
         mqttState.unsubscribeConfig?.();
 
-        mqttState.unsubscribeConfig = await watchConfig(device, (config) => {
+        mqttState.unsubscribeConfig = await watchConfig(deviceId, (config) => {
             mqttState.config = config;
         });
     },
 
-    setActiveDevice: async (device: string) => {
-        mqttActions.watchStatusLogs(device);
-        mqttActions.watchConfig(device);
-
+    setActiveDevice: async (device: LlllDevice) => {
+        mqttActions.watchStatusLogs(device.id);
+        mqttActions.watchConfig(device.id);
         mqttState.activeDevice = device;
-
         reSubscribe();
-
-        toast.success(`Kết nối thiết bị: ${mqttState.activeDevice}`);
+        toast.success(`Kết nối thiết bị: ${mqttState.activeDevice.name}`);
     },
 };

@@ -124,7 +124,7 @@ export const Temperature = () => {
                     <label>Số dữ liệu hiển thị:</label>
                     <input
                         type="number"
-                        defaultValue={mqttSnap.limit}
+                        defaultValue={mqttSnap.logLimit}
                         onChange={(e) =>
                             debounceSetLimit(parseInt(e.target.value) || 8)
                         }

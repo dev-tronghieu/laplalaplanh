@@ -13,8 +13,14 @@ import { firebaseApp } from "./setup";
 
 const db = getFirestore(firebaseApp);
 
-export interface FirestoreUser {
+export interface LlllUser {
     devices: string[];
+}
+
+export interface LlllDevice {
+    id: string;
+    name: string;
+    owner: string;
 }
 
 export const getUser = async (email: string) => {
@@ -22,7 +28,22 @@ export const getUser = async (email: string) => {
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
-        return userSnap.data() as FirestoreUser;
+        return userSnap.data() as LlllUser;
+    } else {
+        return null;
+    }
+};
+
+export const getDevice = async (id: string) => {
+    const deviceRef = doc(db, "Devices", id);
+    const deviceSnap = await getDoc(deviceRef);
+
+    if (deviceSnap.exists()) {
+        return {
+            id: deviceSnap.id,
+            name: deviceSnap.data().name,
+            owner: deviceSnap.data().owner,
+        } as LlllDevice;
     } else {
         return null;
     }
