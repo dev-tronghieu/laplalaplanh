@@ -30,7 +30,6 @@
 `topic` = `laplalaplanh/status/{device-id}` (e.g. `laplalaplanh/status/dv1`)
 
 - Light temperature
-- Environment brightness
 - Operating mode (automatic, manual, etc.)
 - Effect
 - Color
