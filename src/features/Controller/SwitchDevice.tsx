@@ -1,4 +1,5 @@
 import Subtitle from "@/components/Subtitle";
+import { LlllDevice } from "@/services/firebase";
 import { mqttActions, mqttState } from "@/valtio/mqtt";
 import { ChangeEvent } from "react";
 import { useSnapshot } from "valtio";
@@ -13,7 +14,7 @@ export const SwitchDevice = () => {
 
         if (!device) return;
 
-        await mqttActions.setActiveDevice(device);
+        await mqttActions.setActiveDevice({ ...device } as LlllDevice);
     };
 
     return (
