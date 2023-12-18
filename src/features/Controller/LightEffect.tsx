@@ -3,6 +3,19 @@ import { LLLL_ACTION_PARAMS, LLLL_ACTION_TYPE, publish } from "@/services/mqtt";
 import { mqttState } from "@/valtio/mqtt";
 import { useSnapshot } from "valtio";
 
+const optionToReadable = (option: string) => {
+    switch (option) {
+        case LLLL_ACTION_PARAMS.CHANGE_EFFECT.SINGLE_COLOR:
+            return "Đơn sắc";
+        case LLLL_ACTION_PARAMS.CHANGE_EFFECT.FLASHING:
+            return "Nhấp nháy";
+        case LLLL_ACTION_PARAMS.CHANGE_EFFECT.RAINBOW:
+            return "Cầu vồng";
+        default:
+            return "Không xác định";
+    }
+};
+
 export const LightEffect = () => {
     const mqttSnap = useSnapshot(mqttState);
     const options = Object.values(LLLL_ACTION_PARAMS.CHANGE_EFFECT);
@@ -21,7 +34,7 @@ export const LightEffect = () => {
             >
                 {options.map((option) => (
                     <option key={option} value={option}>
-                        {option}
+                        {optionToReadable(option)}
                     </option>
                 ))}
             </select>

@@ -27,8 +27,15 @@ export const Power = () => {
 
     return (
         <div className="flex flex-wrap gap-2 items-center">
-            <Subtitle text="Nguồn" />
-            <Toggle active={isOn} onToggle={handleToggle} />
+            <Subtitle text="Đèn" />
+            <Toggle
+                active={isOn}
+                onToggle={handleToggle}
+                disabled={
+                    mqttSnap.activeDevice.config.operatingMode ===
+                    LLLL_ACTION_PARAMS.SET_OPERATING_MODE.AUTO
+                }
+            />
         </div>
     );
 };
