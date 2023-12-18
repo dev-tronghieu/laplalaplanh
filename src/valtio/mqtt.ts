@@ -35,6 +35,7 @@ export const mqttState = proxy<MqttState>({
             effect: "single-color",
             color: "#ffffff",
         },
+        users: [],
     },
     activeStatusLogs: [],
     logLimit: 8,
