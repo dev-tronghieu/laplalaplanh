@@ -1,8 +1,6 @@
 import {
-    LlllDevice,
-    getDevice,
+    getAccessibleDevices,
     getOwnedDevices,
-    getUser,
     signInWithGoogle,
     signOut,
 } from "@/services/firebase";
@@ -35,27 +33,10 @@ export const authActions = {
             return toast.error("Email chưa được đăng ký");
         }
 
-        const user = await getUser(persistentUser.email);
-
-        if (!user) {
-            return toast.error(
-                "Tài khoản chưa được đăng ký, vui lòng liên hệ chủ thiết bị."
-            );
-        }
-
-        const devices: LlllDevice[] = [];
-
-        for (const deviceId of user.devices) {
-            const device = await getDevice(deviceId);
-            if (device) {
-                devices.push(device);
-            }
-        }
-
+        const devices = await getAccessibleDevices(persistentUser.email);
         const ownedDevices = await getOwnedDevices(persistentUser.email);
 
         mqttActions.setOwnedDevices(ownedDevices);
-
         mqttActions.setDevices(devices);
 
         devices.length > 0 && (await mqttActions.setActiveDevice(devices[0]));

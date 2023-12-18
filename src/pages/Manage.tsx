@@ -8,7 +8,7 @@ const ManagePage = () => {
 
     if (mqttSnap.ownedDevices.length === 0) {
         return (
-            <div>
+            <div className="text-xl text-tertiary font-semibold">
                 <p>Bạn không sở hữu thiết bị nào!</p>
             </div>
         );
@@ -23,7 +23,7 @@ const ManagePage = () => {
                         name={device.name}
                         owner={device.owner}
                     />
-                    <Access accessList={["abcd@gmail.com"]} />
+                    <Access accessList={[...device.users]} />
                 </div>
             ))}
         </div>

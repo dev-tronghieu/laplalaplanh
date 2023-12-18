@@ -33,19 +33,9 @@ export interface LlllDevice {
     id: string;
     name: string;
     owner: string;
+    users: string[];
     config: DeviceConfig;
 }
-
-export const getUser = async (email: string) => {
-    const userRef = doc(db, "Users", email);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-        return userSnap.data() as LlllUser;
-    } else {
-        return null;
-    }
-};
 
 export const getDevice = async (id: string) => {
     const deviceRef = doc(db, "Devices", id);
@@ -63,6 +53,27 @@ export const getDevice = async (id: string) => {
     }
 };
 
+export const getAccessibleDevices = async (user: string) => {
+    const deviceRef = collection(db, "Devices");
+    const q = query(deviceRef, where("users", "array-contains", user));
+
+    const querySnapshot = await getDocs(q);
+
+    const devices: LlllDevice[] = [];
+
+    querySnapshot.forEach((doc) => {
+        devices.push({
+            id: doc.id,
+            name: doc.data().name,
+            owner: doc.data().owner,
+            users: doc.data().users,
+            config: doc.data().config,
+        } as LlllDevice);
+    });
+
+    return devices;
+};
+
 export const getOwnedDevices = async (owner: string) => {
     const devicesRef = collection(db, "Devices");
     const q = query(devicesRef, where("owner", "==", owner));
@@ -76,6 +87,7 @@ export const getOwnedDevices = async (owner: string) => {
             id: doc.id,
             name: doc.data().name,
             owner: doc.data().owner,
+            users: doc.data().users,
             config: doc.data().config,
         } as LlllDevice);
     });
@@ -132,6 +144,7 @@ export const watchDevice = async (
                 id: doc.id,
                 name: doc.data().name,
                 owner: doc.data().owner,
+                users: doc.data().users,
                 config: doc.data().config,
             };
             callback(device);
