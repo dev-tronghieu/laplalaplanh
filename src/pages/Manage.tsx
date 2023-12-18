@@ -4,30 +4,26 @@ import { mqttState } from "@/valtio/mqtt";
 import { useSnapshot } from "valtio";
 
 const ManagePage = () => {
-    const mqttSnap = useSnapshot(mqttState);
+  const mqttSnap = useSnapshot(mqttState);
 
-    if (mqttSnap.ownedDevices.length === 0) {
-        return (
-            <div className="text-xl text-tertiary font-semibold">
-                <p>Bạn không sở hữu thiết bị nào!</p>
-            </div>
-        );
-    }
-
+  if (mqttSnap.ownedDevices.length === 0) {
     return (
-        <div>
-            {mqttSnap.ownedDevices.map((device) => (
-                <div key={device.id}>
-                    <DeviceInfo
-                        id={device.id}
-                        name={device.name}
-                        owner={device.owner}
-                    />
-                    <Access accessList={[...device.users]} />
-                </div>
-            ))}
-        </div>
+      <div className="text-xl text-tertiary font-semibold">
+        <p>Bạn không sở hữu thiết bị nào!</p>
+      </div>
     );
+  }
+
+  return (
+    <div>
+      {mqttSnap.ownedDevices.map((device) => (
+        <div key={device.id}>
+          <DeviceInfo id={device.id} name={device.name} owner={device.owner} />
+          <Access accessList={[...device.users]} id={device.id} />
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default ManagePage;

@@ -4,6 +4,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    updateDoc,
     query,
     orderBy,
     limit as FirestoreLimit,
@@ -51,6 +52,34 @@ export const getDevice = async (id: string) => {
     } else {
         return null;
     }
+};
+
+export const updateDeviceName = async (id: string, name: string) => {
+    const deviceRef = doc(db, "Devices", id);
+
+    await updateDoc(deviceRef, {
+        name: name,
+    });
+};
+
+export const removeAccessOfDevice = async (id: string, user: string) => {
+    const deviceRef = doc(db, "Devices", id);
+    const users = (await getDoc(deviceRef)).data()?.users;
+    const newUsers = users.filter((u: string) => u !== user);
+
+    await updateDoc(deviceRef, {
+        users: newUsers,
+    });
+};
+
+export const addAccessToDevice = async (id: string, user: string) => {
+    const deviceRef = doc(db, "Devices", id);
+    const users = (await getDoc(deviceRef)).data()?.users;
+    const newUsers = users.concat(user);
+
+    await updateDoc(deviceRef, {
+        users: newUsers,
+    });
 };
 
 export const getAccessibleDevices = async (user: string) => {
@@ -136,9 +165,9 @@ export const watchDevice = async (
     deviceId: string,
     callback: (data: LlllDevice) => void
 ) => {
-    const configRef = doc(db, "Devices", deviceId);
+    const deviceRef = doc(db, "Devices", deviceId);
 
-    const unsubscribe = onSnapshot(configRef, (doc) => {
+    const unsubscribe = onSnapshot(deviceRef, (doc) => {
         if (doc.exists()) {
             const device: LlllDevice = {
                 id: doc.id,
