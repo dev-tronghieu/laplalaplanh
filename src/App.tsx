@@ -66,7 +66,7 @@ function App() {
                     <div
                         className={`min-h-screen bg-background px-4 py-2 transition duration-300 w-full absolute z-20 ${containerAnimation}`}
                     >
-                        <div className="flex flex-col gap-2 mb-6">
+                        <div className="flex flex-col gap-2 mb-6 sticky top-0 bg-background z-10">
                             <MenuOutlined
                                 className="text-2xl cursor-pointer rounded-md text-tertiary hover:text-primary transition select-none w-10 h-10 flex justify-center items-center"
                                 onClick={() => setCollapsed(!collapsed)}
