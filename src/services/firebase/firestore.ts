@@ -126,6 +126,7 @@ export const getOwnedDevices = async (owner: string) => {
 
 export interface StatusLog {
     temperature: number;
+    lightTime: number;
     epochTime: number;
 }
 

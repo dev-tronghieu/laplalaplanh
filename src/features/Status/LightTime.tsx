@@ -1,15 +1,37 @@
 import Subtitle from "@/components/Subtitle";
+import { mqttState } from "@/valtio/mqtt";
 import GaugeChart from "react-gauge-chart";
+import { useSnapshot } from "valtio";
 
 const timeToString = (time: number) => {
+    if (time === 0) return "Đèn đang tắt";
+
+    if (time < 0.01) return `${Math.floor(time * 60 * 60)} giây`;
+
+    if (time < 1) {
+        return `${Math.floor(time * 60)} phút`;
+    }
+
     const hours = Math.floor(time);
     const minutes = Math.floor((time - hours) * 60);
     return `${hours} giờ ${minutes} phút`;
 };
 
 export const LightTime = () => {
-    const lightTime = 6.2;
-    const lightTimePercent = lightTime / 12;
+    const mqttSnap = useSnapshot(mqttState);
+    const { activeStatusLogs } = mqttSnap;
+
+    let lightTimeInSec = 0;
+
+    try {
+        lightTimeInSec =
+            activeStatusLogs[activeStatusLogs.length - 1].lightTime || 0;
+    } catch (error) {
+        console.log("--> no light time data");
+    }
+
+    const lightTimeInHour = lightTimeInSec / 3600;
+    const lightTimePercent = lightTimeInHour / 12;
 
     return (
         <div>
@@ -25,7 +47,7 @@ export const LightTime = () => {
                     textColor="#FF90BC"
                     hideText={true}
                 />
-                <p className="font-semibold">{timeToString(lightTime)}</p>
+                <p className="font-semibold">{timeToString(lightTimeInHour)}</p>
             </div>
         </div>
     );
