@@ -1,6 +1,7 @@
 import {
     LlllDevice,
     getDevice,
+    getOwnedDevices,
     getUser,
     signInWithGoogle,
     signOut,
@@ -51,6 +52,10 @@ export const authActions = {
             }
         }
 
+        const ownedDevices = await getOwnedDevices(persistentUser.email);
+
+        mqttActions.setOwnedDevices(ownedDevices);
+
         mqttActions.setDevices(devices);
 
         devices.length > 0 && (await mqttActions.setActiveDevice(devices[0]));
@@ -66,6 +71,7 @@ export const authActions = {
 
         mqttService.start();
     },
+
     logout: async () => {
         await signOut();
         authState.isLoggedIn = false;

@@ -11,6 +11,7 @@ import { proxy } from "valtio";
 export interface MqttState {
     isConnected: boolean;
     devices: LlllDevice[];
+    ownedDevices: LlllDevice[];
     activeDevice: LlllDevice;
     activeStatusLogs: StatusLog[];
     unsubscribeDevice?: () => void;
@@ -23,6 +24,7 @@ export interface MqttState {
 export const mqttState = proxy<MqttState>({
     isConnected: false,
     devices: [],
+    ownedDevices: [],
     activeDevice: {
         id: "",
         name: "",
@@ -47,6 +49,10 @@ export const mqttActions = {
 
     setDevices: (devices: LlllDevice[]) => {
         mqttState.devices = devices;
+    },
+
+    setOwnedDevices: (devices: LlllDevice[]) => {
+        mqttState.ownedDevices = devices;
     },
 
     setActiveStatusLogs: (statusLogs: StatusLog[]) => {
@@ -83,8 +89,6 @@ export const mqttActions = {
     watchDevice: async (deviceId: string) => {
         mqttState.unsubscribeDevice?.();
         mqttState.unsubscribeDevice = await watchDevice(deviceId, (device) => {
-            console.log("watchDevice", device);
-
             mqttState.devices = mqttState.devices.map((d) =>
                 d.id === device.id ? device : d
             );

@@ -3,6 +3,7 @@ import {
     collection,
     doc,
     getDoc,
+    getDocs,
     query,
     orderBy,
     limit as FirestoreLimit,
@@ -60,6 +61,26 @@ export const getDevice = async (id: string) => {
     } else {
         return null;
     }
+};
+
+export const getOwnedDevices = async (owner: string) => {
+    const devicesRef = collection(db, "Devices");
+    const q = query(devicesRef, where("owner", "==", owner));
+
+    const querySnapshot = await getDocs(q);
+
+    const devices: LlllDevice[] = [];
+
+    querySnapshot.forEach((doc) => {
+        devices.push({
+            id: doc.id,
+            name: doc.data().name,
+            owner: doc.data().owner,
+            config: doc.data().config,
+        } as LlllDevice);
+    });
+
+    return devices;
 };
 
 export interface StatusLog {

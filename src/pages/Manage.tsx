@@ -1,30 +1,31 @@
 import Access from "@/components/Access";
 import DeviceInfo from "@/components/DeviceInfo";
-import { SwitchDevice } from "@/features/Controller";
 import { mqttState } from "@/valtio/mqtt";
 import { useSnapshot } from "valtio";
 
 const ManagePage = () => {
     const mqttSnap = useSnapshot(mqttState);
 
-    if (!mqttSnap.activeDevice) {
+    if (mqttSnap.ownedDevices.length === 0) {
         return (
             <div>
-                <SwitchDevice />
-                <p>No device selected</p>
+                <p>Bạn không sở hữu thiết bị nào!</p>
             </div>
         );
     }
 
     return (
         <div>
-            <SwitchDevice />
-            <DeviceInfo
-                id={mqttSnap.activeDevice.id}
-                name={mqttSnap.activeDevice.name}
-                owner={mqttSnap.activeDevice.owner}
-            />
-            <Access accessList={["abcd@gmail.com"]} />
+            {mqttSnap.ownedDevices.map((device) => (
+                <div key={device.id}>
+                    <DeviceInfo
+                        id={device.id}
+                        name={device.name}
+                        owner={device.owner}
+                    />
+                    <Access accessList={["abcd@gmail.com"]} />
+                </div>
+            ))}
         </div>
     );
 };
