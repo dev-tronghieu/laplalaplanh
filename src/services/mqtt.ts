@@ -32,6 +32,7 @@ export interface LLLL_ACTION_PAYLOAD {
     id: string;
     type: LLLL_ACTION_TYPE;
     data: string;
+    timeoutAt: number;
 }
 
 export const getTopicFromChannel = () => {
@@ -79,11 +80,16 @@ export const reSubscribe = () => {
     mqttClient.subscribe(getTopicFromChannel());
 };
 
+export const ACTION_TIMEOUT_AFTER_MS = 1000 * 30;
+
 export const publish = (type: LLLL_ACTION_TYPE, data: string) => {
+    const timeoutAt = new Date().getTime() + 5000;
+
     const payload: LLLL_ACTION_PAYLOAD = {
         id: crypto.randomUUID(),
         type,
         data,
+        timeoutAt,
     };
     const payloadString = JSON.stringify(payload);
     mqttClient.publish(getTopicFromChannel(), payloadString);
