@@ -83,7 +83,7 @@ export const reSubscribe = () => {
 export const ACTION_TIMEOUT_AFTER_MS = 1000 * 30;
 
 export const publish = (type: LLLL_ACTION_TYPE, data: string) => {
-    const timeoutAt = new Date().getTime() + ACTION_TIMEOUT_AFTER_MS;
+    const timeoutAt = (new Date().getTime() + ACTION_TIMEOUT_AFTER_MS) / 1000;
 
     const payload: LLLL_ACTION_PAYLOAD = {
         id: crypto.randomUUID(),
