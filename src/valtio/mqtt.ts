@@ -1,11 +1,10 @@
 import {
-    DeviceConfig,
     LlllDevice,
     StatusLog,
-    watchConfig,
+    watchDevice,
     watchStatusLogsByEpochTime,
 } from "@/services/firebase";
-import { reSubscribe } from "@/services/mqtt";
+import { reSubscribe as mqttResubscribe } from "@/services/mqtt";
 import { toast } from "react-toastify";
 import { proxy } from "valtio";
 
@@ -14,12 +13,11 @@ export interface MqttState {
     devices: LlllDevice[];
     activeDevice: LlllDevice;
     activeStatusLogs: StatusLog[];
+    unsubscribeDevice?: () => void;
     unsubscribeStatusLogs?: () => void;
     logLimit: number;
     fromEpochTime: number;
     toEpochTime: number;
-    config: DeviceConfig;
-    unsubscribeConfig?: () => void;
 }
 
 export const mqttState = proxy<MqttState>({
@@ -29,17 +27,17 @@ export const mqttState = proxy<MqttState>({
         id: "",
         name: "",
         owner: "",
+        config: {
+            power: "off",
+            operatingMode: "auto",
+            effect: "single-color",
+            color: "#ffffff",
+        },
     },
     activeStatusLogs: [],
     logLimit: 8,
     fromEpochTime: new Date().setHours(0, 0, 0, 0) / 1000,
     toEpochTime: new Date().setHours(23, 59, 59, 999) / 1000,
-    config: {
-        power: "off",
-        operatingMode: "auto",
-        effect: "single-color",
-        color: "#ffffff",
-    },
 });
 
 export const mqttActions = {
@@ -82,19 +80,24 @@ export const mqttActions = {
         );
     },
 
-    watchConfig: async (deviceId: string) => {
-        mqttState.unsubscribeConfig?.();
+    watchDevice: async (deviceId: string) => {
+        mqttState.unsubscribeDevice?.();
+        mqttState.unsubscribeDevice = await watchDevice(deviceId, (device) => {
+            console.log("watchDevice", device);
 
-        mqttState.unsubscribeConfig = await watchConfig(deviceId, (config) => {
-            mqttState.config = config;
+            mqttState.devices = mqttState.devices.map((d) =>
+                d.id === device.id ? device : d
+            );
+
+            mqttState.activeDevice = device;
         });
     },
 
     setActiveDevice: async (device: LlllDevice) => {
         mqttActions.watchStatusLogs(device.id);
-        mqttActions.watchConfig(device.id);
+        mqttActions.watchDevice(device.id);
         mqttState.activeDevice = device;
-        reSubscribe();
+        mqttResubscribe();
         toast.success(`Kết nối thiết bị: ${mqttState.activeDevice.name}`);
     },
 };

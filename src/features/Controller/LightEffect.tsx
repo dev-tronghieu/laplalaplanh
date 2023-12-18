@@ -15,7 +15,10 @@ export const LightEffect = () => {
         <div className="flex flex-wrap gap-2 items-center">
             <Subtitle text="Hiệu ứng" />
 
-            <select value={mqttSnap.config.effect} onChange={handleChange}>
+            <select
+                value={mqttSnap.activeDevice.config.effect}
+                onChange={handleChange}
+            >
                 {options.map((option) => (
                     <option key={option} value={option}>
                         {option}

@@ -6,7 +6,8 @@ import { useSnapshot } from "valtio";
 
 export const Power = () => {
     const mqttSnap = useSnapshot(mqttState);
-    const isOn = mqttSnap.config.power === LLLL_ACTION_PARAMS.SET_POWER.ON;
+    const isOn =
+        mqttSnap.activeDevice.config.power === LLLL_ACTION_PARAMS.SET_POWER.ON;
 
     const handleOn = () => {
         publish(LLLL_ACTION_TYPE.SET_POWER, LLLL_ACTION_PARAMS.SET_POWER.ON);

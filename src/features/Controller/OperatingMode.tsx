@@ -7,7 +7,7 @@ import { useSnapshot } from "valtio";
 export const OperatingMode = () => {
     const mqttSnap = useSnapshot(mqttState);
     const isManual =
-        mqttSnap.config.operatingMode ===
+        mqttSnap.activeDevice.config.operatingMode ===
         LLLL_ACTION_PARAMS.SET_OPERATING_MODE.MANUAL;
 
     const handleManual = () => {

@@ -7,7 +7,7 @@ import { mqttState } from "@/valtio/mqtt";
 export const LightColor = () => {
     const mqttSnap = useSnapshot(mqttState);
 
-    const color = "#" + mqttSnap.config.color;
+    const color = "#" + mqttSnap.activeDevice.config.color;
 
     const handleColorChange = debounce((color: string) => {
         publish(

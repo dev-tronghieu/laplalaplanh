@@ -17,10 +17,22 @@ export interface LlllUser {
     devices: string[];
 }
 
+type Power = "on" | "off";
+type OperatingMode = "auto" | "manual";
+type Effect = "single-color" | "flashing" | "rainbow";
+
+export interface DeviceConfig {
+    power: Power;
+    operatingMode: OperatingMode;
+    effect: Effect;
+    color: string;
+}
+
 export interface LlllDevice {
     id: string;
     name: string;
     owner: string;
+    config: DeviceConfig;
 }
 
 export const getUser = async (email: string) => {
@@ -43,6 +55,7 @@ export const getDevice = async (id: string) => {
             id: deviceSnap.id,
             name: deviceSnap.data().name,
             owner: deviceSnap.data().owner,
+            config: deviceSnap.data().config,
         } as LlllDevice;
     } else {
         return null;
@@ -86,27 +99,21 @@ export const watchStatusLogsByEpochTime = async (
     return unsubscribe;
 };
 
-type Power = "on" | "off";
-type OperatingMode = "auto" | "manual";
-type Effect = "single-color" | "flashing" | "rainbow";
-
-export interface DeviceConfig {
-    power: Power;
-    operatingMode: OperatingMode;
-    effect: Effect;
-    color: string;
-}
-
-export const watchConfig = async (
-    device: string,
-    callback: (data: DeviceConfig) => void
+export const watchDevice = async (
+    deviceId: string,
+    callback: (data: LlllDevice) => void
 ) => {
-    const configRef = doc(db, "Devices", device);
+    const configRef = doc(db, "Devices", deviceId);
 
     const unsubscribe = onSnapshot(configRef, (doc) => {
         if (doc.exists()) {
-            const data = doc.data().config as DeviceConfig;
-            callback(data);
+            const device: LlllDevice = {
+                id: doc.id,
+                name: doc.data().name,
+                owner: doc.data().owner,
+                config: doc.data().config,
+            };
+            callback(device);
         }
     });
 
