@@ -6,13 +6,11 @@ import { useSnapshot } from "valtio";
 const timeToString = (time: number) => {
     if (time === 0) return "Đèn đang tắt";
 
-    if (time < 0.01) return `${Math.floor(time * 60 * 60)} giây`;
-
-    if (time < 0.1) return `${Math.floor(time * 60)} phút`;
-
     const hours = Math.floor(time);
     const minutes = Math.floor((time - hours) * 60);
-    return `${hours} giờ ${minutes} phút`;
+    const seconds = Math.floor(((time - hours) * 60 - minutes) * 60);
+
+    return `${hours} giờ ${minutes} phút ${seconds} giây`;
 };
 
 export const LightTime = () => {
