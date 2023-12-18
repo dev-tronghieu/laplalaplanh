@@ -13,6 +13,7 @@ export interface MqttState {
     devices: LlllDevice[];
     ownedDevices: LlllDevice[];
     activeDevice: LlllDevice;
+    activeDeviceInfo: LlllDevice;
     activeStatusLogs: StatusLog[];
     unsubscribeDevice?: () => void;
     unsubscribeStatusLogs?: () => void;
@@ -26,6 +27,18 @@ export const mqttState = proxy<MqttState>({
     devices: [],
     ownedDevices: [],
     activeDevice: {
+        id: "",
+        name: "",
+        owner: "",
+        config: {
+            power: "off",
+            operatingMode: "auto",
+            effect: "single-color",
+            color: "#ffffff",
+        },
+        users: [],
+    },
+    activeDeviceInfo: {
         id: "",
         name: "",
         owner: "",
@@ -104,5 +117,9 @@ export const mqttActions = {
         mqttState.activeDevice = device;
         mqttResubscribe();
         toast.success(`Kết nối thiết bị: ${mqttState.activeDevice.name}`);
+    },
+
+    setActiveDeviceInfo: (device: LlllDevice) => {
+        mqttState.activeDeviceInfo = device;
     },
 };
