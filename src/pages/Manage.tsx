@@ -12,7 +12,6 @@ import { useSnapshot } from "valtio";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { authState } from "@/valtio/auth";
-import { useNavigate } from "react-router-dom";
 
 interface SwitchDeviceProps {
     devices: LlllDevice[];
@@ -48,7 +47,6 @@ const SwitchDevice: FC<SwitchDeviceProps> = ({ devices }) => {
 const AddDevice = () => {
     const [deviceId, setDeviceId] = useState("");
     const [devicePassword, setDevicePassword] = useState("");
-    const navigate = useNavigate();
     const authSnap = useSnapshot(authState);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -65,8 +63,9 @@ const AddDevice = () => {
 
         switch (result) {
             case ClaimDeviceResult.Success:
-                toast.success("Thêm thiết bị thành công!");
-                navigate(0);
+                toast.success(
+                    "Thêm thiết bị thành công! Vui lòng tải lại trang web để cập nhật thiết bị mới"
+                );
                 break;
             case ClaimDeviceResult.DeviceAlreadyClaimed:
                 toast.error("Thiết bị đã có người sở hữu!");
