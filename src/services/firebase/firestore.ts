@@ -54,6 +54,39 @@ export const getDevice = async (id: string) => {
     }
 };
 
+export enum ClaimDeviceResult {
+    Success,
+    DeviceNotFound,
+    DeviceAlreadyClaimed,
+    WrongPassword,
+}
+
+export const claimDevice = async (id: string, password: string, by: string) => {
+    const deviceRef = doc(db, "Devices", id);
+    const deviceSnap = await getDoc(deviceRef);
+    const data = deviceSnap.data();
+
+    if (!data) {
+        return ClaimDeviceResult.DeviceNotFound;
+    }
+
+    if (data.owner) {
+        return ClaimDeviceResult.DeviceAlreadyClaimed;
+    }
+
+    if (data.password !== password) {
+        return ClaimDeviceResult.WrongPassword;
+    }
+
+    await updateDoc(deviceRef, {
+        owner: by,
+        users: [by],
+        name: `Đèn lấp lánh ${id} của ${by}`,
+    });
+
+    return ClaimDeviceResult.Success;
+};
+
 export const updateDeviceName = async (id: string, name: string) => {
     const deviceRef = doc(db, "Devices", id);
 
